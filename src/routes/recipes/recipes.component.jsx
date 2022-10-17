@@ -1,12 +1,14 @@
 import { React, useState, useEffect } from "react";
 
+import { Link } from "react-router-dom";
+
 import { RecipesContainer } from "./recipes.component.styles";
 
 export default function Recipes() {
   const [recipesList, setRecipesList] = useState([]);
   const [pagesCounter, setPagesCounter] = useState(1);
 
-  // Import rcipes from database
+  // Import recipes from database
 
   const importRecipes = async () => {
     await fetch(
@@ -18,7 +20,7 @@ export default function Recipes() {
         const recipesList = data.map((recipe, index) => {
           return (
             <div key={index}>
-              <a href="#">
+              <Link to={`${recipe._id}`}>
                 <div>
                   <img
                     src={`${recipe.imageUrl}`}
@@ -27,7 +29,7 @@ export default function Recipes() {
                   />
                   {recipe.soupName}
                 </div>
-              </a>
+              </Link>
             </div>
           );
         });
@@ -46,19 +48,31 @@ export default function Recipes() {
 
   // Handle ingredients search form
 
-  const [ingredientQuery, setIngredientQuery] = useState({});
+  const defaultSearchForm = {
+    search: "",
+  };
+
+  const resetSearchForm = () => {
+    setIngredientQuery(defaultSearchForm);
+  };
+
+  const [ingredientQuery, setIngredientQuery] = useState(defaultSearchForm);
+
+  const { search } = ingredientQuery;
 
   const handleChange = (event) => {
     event.preventDefault();
     const { name, value } = event.target;
-    setIngredientQuery({ ...ingredientQuery, [name]: value });
+    setIngredientQuery({
+      ...ingredientQuery,
+      [name]: value.replaceAll(" ", "").trim().split(","),
+    });
   };
 
-  // Send query to server to search database function
+  // Send query to server to search database
 
   const handleSendQuery = async () => {
-    await fetch("http://localhost:4444/recipes-list-search", {
-      // Adding method type
+    await fetch("http://localhost:4444/recipes-list-search-many", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -66,6 +80,7 @@ export default function Recipes() {
       },
       body: JSON.stringify(ingredientQuery),
     })
+      .then(console.log(ingredientQuery))
       .then((response) => response.json())
       .then((data) => console.log(data))
       .catch((error) => {
@@ -76,6 +91,7 @@ export default function Recipes() {
   const handleSubmit = (event) => {
     event.preventDefault();
     handleSendQuery();
+    resetSearchForm();
   };
 
   return (
@@ -89,7 +105,8 @@ export default function Recipes() {
               onChange={handleChange}
               type="text"
               name="search"
-              placeholder="Type ingredient..."
+              value={search}
+              placeholder="Type ingredient or ingredients separated with commas..."
             />
             <button>Search</button>
           </form>

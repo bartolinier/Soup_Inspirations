@@ -67,6 +67,38 @@ app.post("/recipes-list-search", (req, res) => {
 })
 
 
+
+
+
+
+app.post("/recipes-list-search-many", (req, res) => {
+
+
+    const queryArray = []
+
+    const regex = req.body.search.map((soup) => {
+        queryArray.push(new RegExp(soup, "i"))
+
+
+    });
+
+    Recipe.find({
+            "ingredientsArray.ingredientName": {
+                $in: queryArray,
+
+
+            }
+        })
+        .then((result) => {
+            res.send(result)
+
+
+        })
+
+
+})
+
+
 //  Recipes list ( limit to  first document)
 
 app.get("/recipes-list", (req, res) => {
@@ -95,5 +127,22 @@ app.get("/recipes-limited-list", (req, res) => {
             res.send(result)
         })
 
+
+})
+
+
+//  Recipe by ID
+
+app.post("/recipe", (req, res) => {
+
+
+    Recipe.find({
+            "_id": req.body.id
+        })
+
+        .then((result) => {
+            res.send(result)
+            console.log(result)
+        })
 
 })

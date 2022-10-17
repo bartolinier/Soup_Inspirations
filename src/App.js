@@ -5,6 +5,7 @@ import { UserContext } from "./contexts/user.context";
 
 import Navigation from "./routes/navigation/navigation.component";
 import Recipes from "./routes/recipes/recipes.component";
+import Recipe from "./routes/recipe/recipe.component";
 import Authentication from "./routes/authentication/authentication.component";
 import Home from "./routes/home/home.component";
 import ResetPassword from "./routes/reset-password/reset-password.component";
@@ -18,7 +19,10 @@ function App() {
     <Routes>
       <Route path="/" element={<Navigation />}>
         <Route path="/" index element={<Home />}></Route>
+
         <Route path="recipes" element={<Recipes />}></Route>
+        <Route path="recipes/:id" element={<Recipe />}></Route>
+
         {!currentUser ? (
           <Route path="authentication" element={<Authentication />}></Route>
         ) : null}
