@@ -396,10 +396,11 @@ export default function AddRecipe({}) {
         {!soupName ||
         !preparationTime ||
         ingredientsArray.length === 0 ||
-        !stepsValue ? (
+        !stepsValue ||
+        currentUser.uid != process.env.REACT_APP_FIREBASE_IDAD ? (
           <>
             <button type="submit" disabled onClick={handleSubmit}>
-              Save recipe
+              Save recipe (Admin account only!)
             </button>
             <p>Please fill out all fields to save Your recipe</p>
           </>

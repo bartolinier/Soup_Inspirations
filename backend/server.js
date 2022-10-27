@@ -42,94 +42,17 @@ app.post("/user/add-recipe", (req, res) => {
 })
 
 
-// Create index for full text search
-
-Recipe.collection.createIndex({
-    "soupName": "text"
-})
-
-// Search using $regex
-
-app.post("/recipes-list-search", (req, res) => {
-
-    Recipe.find({
-            "ingredientsArray.ingredientName": {
-                $regex: req.body.search,
-                $options: "i"
-            }
-        })
-        .then((result) => {
-            res.send(result)
-        })
 
 
-
-})
-
-
-
-
-
-
-app.post("/recipes-list-search-many", (req, res) => {
-
-
-    const queryArray = []
-
-    const regex = req.body.search.map((soup) => {
-        queryArray.push(new RegExp(soup, "i"))
-
-
-    });
-
-    Recipe.find({
-            "ingredientsArray.ingredientName": {
-                $in: queryArray,
-
-
-            }
-        })
-        .then((result) => {
-            res.send(result)
-
-
-        })
-
-
-})
-
-
-//  Recipes list ( limit to  first document)
+//  Recipes list 
 
 app.get("/recipes-list", (req, res) => {
-    Recipe.find({}).limit(1)
+    Recipe.find({})
         .then((result) => {
             res.send(result)
         })
 
 })
-
-
-//  Recipes list (add more docs to display list)
-
-
-app.get("/recipes-limited-list", (req, res) => {
-
-    const page = req.query.page || 0
-    const recipesPerPage = 2
-
-
-
-    Recipe.find({}).limit(recipesPerPage * page)
-
-
-        .then((result) => {
-            res.send(result)
-        })
-
-
-})
-
 
 //  Recipe by ID
 
@@ -142,7 +65,9 @@ app.post("/recipe", (req, res) => {
 
         .then((result) => {
             res.send(result)
-            console.log(result)
+
         })
+
+        .catch((error) => res.send(error))
 
 })

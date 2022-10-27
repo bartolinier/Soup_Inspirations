@@ -1,41 +1,38 @@
-import React from 'react'
-import { Link } from "react-router-dom";
+import React from "react";
+import { AiFillHeart } from "react-icons/ai";
 
+import {
+  MenuList,
+  MenuLoggedAsContainer,
+  UserMenuContainer,
+  FavoritesLabel,
+  MenuNavLink,
+  MenuLogOut,
+} from "./user-menu.component.styles";
 
-export default function UserMenu({email, logoutAction}) {
-
+export default function UserMenu({ email, logoutAction }) {
   return (
     <>
-        <div >
-            <div>
-                <p>Logged as: {email}</p>
-            </div>
-            <ul>
-                <li>
-                <div>
-<a href='/'>Your recipes</a>
-                </div>
-                </li>
-                <li>
-                <div>
-                <a href='/'>Favourites <img src="" alt="heart"  /></a>
+      <UserMenuContainer>
+        <MenuLoggedAsContainer>
+          <p>Logged as: {email}</p>
+        </MenuLoggedAsContainer>
 
-                </div>
-                </li>
-                <li>
-                <div>
-                <Link to='/add-recipe'>Add recipe</Link>
-                </div>
-                </li>
+        <MenuList>
+          <MenuNavLink to="/favorites">
+            <FavoritesLabel>
+              Favorites
+              <AiFillHeart style={{ color: "#CD2B15" }} />
+            </FavoritesLabel>
+          </MenuNavLink>
 
-                <li>
-                <div>
-                <a onClick={logoutAction} >Log out</a>
-                </div>
-                </li>
+          <MenuNavLink to="/add-recipe">Add recipe</MenuNavLink>
 
-            </ul>
-        </div>
+          <MenuLogOut>
+            <a onClick={logoutAction}>Log out</a>
+          </MenuLogOut>
+        </MenuList>
+      </UserMenuContainer>
     </>
-  )
+  );
 }

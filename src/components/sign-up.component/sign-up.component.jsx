@@ -6,6 +6,15 @@ import { createAuthUserWithEmailAndPassword } from "../../utils/firebase/firebas
 
 import { UserContext } from "../../contexts/user.context";
 
+import UniversalButton from "../universal-button.component/universal-button.component";
+
+import {
+  SignUpContainer,
+  SignUpHeader,
+  SignUpForm,
+  SignUplabelAndInput,
+} from "./sign-up.component.styles";
+
 const defaultFormFields = {
   email: "",
   password: "",
@@ -58,41 +67,44 @@ export default function SignUp() {
   };
 
   return (
-    <>
-      <h2>Don't have an account? Sign up!</h2>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="email"> e-mail </label>
-        <input
-          type="email"
-          name="email"
-          id="email"
-          required
-          value={email}
-          onChange={handleChange}
-        />
-
-        <label htmlFor="password"> password </label>
-        <input
-          type="password"
-          name="password"
-          id="password"
-          required
-          value={password}
-          onChange={handleChange}
-        />
-
-        <label htmlFor="confirm-password"> confirm password </label>
-        <input
-          type="password"
-          name="confirmPassword"
-          id="confirm-password"
-          required
-          value={confirmPassword}
-          onChange={handleChange}
-        />
-
-        <button type="submit">Sign up</button>
-      </form>
-    </>
+    <SignUpContainer>
+      <SignUpHeader>Don't have an account? Sign up!</SignUpHeader>
+      <SignUpForm onSubmit={handleSubmit}>
+        <SignUplabelAndInput>
+          <label htmlFor="email"> e-mail* </label>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            required
+            value={email}
+            onChange={handleChange}
+          />
+        </SignUplabelAndInput>
+        <SignUplabelAndInput>
+          <label htmlFor="password"> password* </label>
+          <input
+            type="password"
+            name="password"
+            id="password"
+            required
+            value={password}
+            onChange={handleChange}
+          />
+        </SignUplabelAndInput>
+        <SignUplabelAndInput>
+          <label htmlFor="confirm-password"> confirm password* </label>
+          <input
+            type="password"
+            name="confirmPassword"
+            id="confirm-password"
+            required
+            value={confirmPassword}
+            onChange={handleChange}
+          />
+        </SignUplabelAndInput>
+        <UniversalButton label="Sign up" type="submit"></UniversalButton>
+      </SignUpForm>
+    </SignUpContainer>
   );
 }

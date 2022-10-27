@@ -1,80 +1,71 @@
+import { Outlet, useNavigate } from "react-router-dom";
 
-
-import { Outlet, useNavigate} from "react-router-dom";
-import { NavigationContainer, NavigationLogoContainer, NavLinks, NavigationLink,NavigationSignInCtaContainer } from "./navigation.component.styles";
+import { TbSoup } from "react-icons/tb";
+import {
+  NavigationContainer,
+  NavigationLogoContainer,
+  NavLinks,
+  NavigationLink,
+} from "./navigation.component.styles";
 
 import { useContext, useState } from "react";
 
 import { signOutUser } from "../../utils/firebase/firebase";
 
+import { UserContext } from "../../contexts/user.context";
+import { FavoritesContext } from "../../contexts/favorites.context";
 
-import { UserContext } from '../../contexts/user.context';
 import UserThumb from "../../components/user-name-thumb.component/user-name-thumb.component";
 import UserMenu from "../../components/user-menu.component/user-menu.component";
 
-export default function Navigation (){
+export default function Navigation() {
+  const navigate = useNavigate();
 
+  const { currentUser } = useContext(UserContext);
+  const { favorites } = useContext(FavoritesContext);
 
-const navigate = useNavigate()
-    
- 
-const { currentUser} = useContext(UserContext);
-   
+  const [userMenu, setUserMenu] = useState(false);
 
-const [userMenu, setUserMenu]=useState(false)
-    
-const handleUserMenu = () =>{
+  const handleUserMenu = () => {
+    setUserMenu((prev) => !prev);
+  };
 
+  return (
+    <>
+      <NavigationContainer>
+        <NavigationLogoContainer to="/">
+          <TbSoup style={{ fontSize: "2.5rem" }}></TbSoup>
+          <p>Soup Inspirations</p>
+        </NavigationLogoContainer>
 
-  setUserMenu((prev)=>!prev)
+        <NavLinks>
+          <NavigationLink to="/recipes">Recipes</NavigationLink>
 
-}
+          {currentUser ? (
+            <NavigationLink to="/favorites">Favorites</NavigationLink>
+          ) : null}
 
-
-
-    
-    return(
-<>
-       <NavigationContainer>
-       
-       <NavigationLogoContainer to="/">wxc
-       </NavigationLogoContainer>
-       
-       {!currentUser?<NavigationSignInCtaContainer>
-        <p>Sign in to share your recipes!</p>
-       </NavigationSignInCtaContainer>:null}
-
-
-       <NavLinks>
-      
-      <NavigationLink 
-       to="/recipes">Recipes
-       </NavigationLink>
-  
-
-       {currentUser ? (
-            <UserThumb showMenu={handleUserMenu} email={currentUser.email.toUpperCase()} />
-          ) : ( <NavigationLink
-       to="/authentication">Sign In
-       </NavigationLink>)}
-            
-
-
-
-       </NavLinks>
-
-       
-       
-       </NavigationContainer>
-       {currentUser && userMenu?<UserMenu logoutAction={()=>{
-        handleUserMenu()
-        signOutUser() 
-        navigate("/")
-
-        }} email={currentUser.email}/>:null}
-      
-       <Outlet/>
-     
-        </>
-    )
+          {currentUser ? (
+            <UserThumb
+              showMenu={handleUserMenu}
+              email={currentUser.email.toUpperCase()}
+            />
+          ) : (
+            <NavigationLink to="/authentication">Sign In</NavigationLink>
+          )}
+        </NavLinks>
+      </NavigationContainer>
+      {currentUser && userMenu ? (
+        <UserMenu
+          logoutAction={() => {
+            handleUserMenu();
+            signOutUser();
+            navigate("/");
+          }}
+          email={currentUser.email}
+        />
+      ) : null}
+      <Outlet />
+    </>
+  );
 }

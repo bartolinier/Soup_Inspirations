@@ -1,11 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+
+import { UserContext } from "../../contexts/user.context";
+import { FavoritesContext } from "../../contexts/favorites.context";
 
 import parse from "html-react-parser";
 
 export default function Recipe() {
+  const { currentUser } = useContext(UserContext);
+
+  const { favorites, setFavorites } = useContext(FavoritesContext);
   const { id } = useParams();
+
+  const navigate = useNavigate();
 
   const recipeID = { id };
 
@@ -18,6 +26,29 @@ export default function Recipe() {
 
   const [steps, setSteps] = useState("");
   const [tips, setTips] = useState("");
+
+  const [favRecipeID, setFavRecipeID] = useState("");
+
+  // Handle add recipe to favorites
+
+  const handleAddToFavorites = (id) => {
+    const ID = Math.floor(Math.random() * 1000);
+
+    if (
+      !favorites.some((el) => el.user === currentUser.uid && el.recipeID === id)
+    ) {
+      setFavorites([
+        ...favorites,
+        { recipeID: id, user: currentUser.uid, objID: ID },
+      ]);
+    } else {
+      const newFavorites = favorites.filter(
+        (fav) => fav.recipeID != id || fav.user != currentUser.uid
+      );
+
+      setFavorites(newFavorites);
+    }
+  };
 
   //    Find recipe by ID in database and show in component
 
@@ -32,6 +63,11 @@ export default function Recipe() {
     })
       .then((response) => response.json())
       .then((data) => {
+        if (data.name === "CastError") {
+          navigate("/recipes");
+          return;
+        }
+        setFavRecipeID(data[0]._id);
         setSoupImage(data[0].imageUrl);
         setSoupName(data[0].soupName);
         setSoupIngredients(
@@ -53,6 +89,7 @@ export default function Recipe() {
 
       .catch((error) => {
         console.error("Error:", error);
+        navigate("/recipes");
       });
   };
 
@@ -76,6 +113,29 @@ export default function Recipe() {
         odit, quasi hic quidem. Laudantium delectus ea repellendus nisi, quasi
         distinctio.
       </p>
+
+      {currentUser ? (
+        <button
+          onClick={() => {
+            handleAddToFavorites(favRecipeID);
+          }}
+        >
+          {currentUser &&
+          favorites.some(
+            (el) => el.user === currentUser.uid && el.recipeID === favRecipeID
+          )
+            ? "dislike"
+            : "like"}
+        </button>
+      ) : (
+        <button
+          onClick={() =>
+            alert("Only logged users can add recipes to favorites")
+          }
+        >
+          like
+        </button>
+      )}
 
       {<img style={{ width: "20%" }} src={soupImage} />}
       <h2>Soup Name: {soupName}</h2>

@@ -1,11 +1,15 @@
-import React from 'react'
+import React from "react";
+import {
+  UserNameThumbButton,
+  UserNameThumbContainer,
+} from "./user-name-thumb.styles";
 
-export default function UserThumb({email, showMenu}) {
+export default function UserThumb({ email, showMenu }) {
   return (
- <>
-<span>
-    <button onClick={showMenu}>{email[0]}</button>
-</span>
- </>
-  )
+    <>
+      <UserNameThumbContainer>
+        <UserNameThumbButton onClick={showMenu}>{email[0]}</UserNameThumbButton>
+      </UserNameThumbContainer>
+    </>
+  );
 }
