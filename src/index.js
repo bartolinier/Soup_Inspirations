@@ -4,21 +4,25 @@ import { BrowserRouter } from "react-router-dom";
 
 import { UserProvider } from "./contexts/user.context";
 import { FavoritesProvider } from "./contexts/favorites.context";
+import { UserMenuProvider } from "./contexts/user-menu-context";
 
 import "./index.css";
 import App from "./App";
+import { UserMenuContext } from "./contexts/user-menu-context";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
     <UserProvider>
-      <>
-        <FavoritesProvider>
-          <React.StrictMode>
-            <App />
-          </React.StrictMode>
-        </FavoritesProvider>
-      </>
+      <UserMenuProvider>
+        <>
+          <FavoritesProvider>
+            <React.StrictMode>
+              <App />
+            </React.StrictMode>
+          </FavoritesProvider>
+        </>
+      </UserMenuProvider>
     </UserProvider>
   </BrowserRouter>
 );

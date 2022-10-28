@@ -1,88 +1,80 @@
-import {React, useState, useEffect} from 'react'
+import { React, useState, useEffect } from "react";
 
-import { useLocation, useNavigate } from 'react-router-dom';
-
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 
+import UniversalButton from "../../components/universal-button.component/universal-button.component";
+import {
+  ResetPasswordContainer,
+  ResetPasswordHeader,
+  ResetPasswordForm,
+  ResetPasswordLabelAndInput,
+} from "./reset-password.component.styles";
+
 const auth = getAuth();
 
-
-const defaultFormFields ={
-
-  email:'',
-  password:'',
- 
-
-}
+const defaultFormFields = {
+  email: "",
+  password: "",
+};
 
 export default function ResetPassword() {
- 
-const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const location = useLocation()
+  const location = useLocation();
 
-  const [formFields, setFormFields ] = useState(defaultFormFields);
+  const [formFields, setFormFields] = useState(defaultFormFields);
 
-  const {email, password} = formFields;
-  
-  const resetFormFields = ()=>{
-    setFormFields(defaultFormFields)
-    }
+  const { email, password } = formFields;
 
+  const resetFormFields = () => {
+    setFormFields(defaultFormFields);
+  };
 
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
-    const handleSubmit = async (event)=>{
+    sendPasswordResetEmail(auth, email)
+      .then(() => {
+        alert("Check Your email to reset your password");
+      })
 
-      event.preventDefault();
-        
-      sendPasswordResetEmail(auth, email)
-  .then(() => {
- alert("Check Your email to reset your password")
-  })
- 
-  .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    alert("Password reset failed!")
-  });
-            
-      }
-    
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        alert("Password reset failed!");
+      });
+  };
 
-      const handleChange = (event)=>{
+  const handleChange = (event) => {
+    const { name, value } = event.target;
 
-        const {name, value} = event.target;
-       
-        setFormFields({...formFields,[name]:value})
-       
-       }
-
-
+    setFormFields({ ...formFields, [name]: value });
+  };
 
   return (
-    <>
-    <h2>Reset pasword</h2> 
-    <h2>Reset pasword</h2> 
-     <h2>Reset pasword</h2>  
-     <h2>Reset pasword</h2>
-     <h2>Reset pasword</h2> 
-    <form >
-    
-    <label htmlFor="email">email</label>
-     <input  type="email" 
-     required 
-     onChange={handleChange} 
-     name="email" 
-     id="email" 
-     value={email}/> 
- 
-  
-     
-     <button onClick={handleSubmit} type='submit'>Reset password</button>
-    </form>
+    <ResetPasswordContainer>
+      <ResetPasswordHeader>Reset Your pasword</ResetPasswordHeader>
 
-   
- </>
-  )
+      <ResetPasswordForm>
+        <ResetPasswordLabelAndInput>
+          <label htmlFor="email">email:</label>
+          <input
+            type="email"
+            required
+            onChange={handleChange}
+            name="email"
+            id="email"
+            value={email}
+          />
+        </ResetPasswordLabelAndInput>
+        <UniversalButton
+          label={"Reset password"}
+          action={handleSubmit}
+          type="submit"
+        ></UniversalButton>
+      </ResetPasswordForm>
+    </ResetPasswordContainer>
+  );
 }

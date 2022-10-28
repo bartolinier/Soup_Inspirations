@@ -11,7 +11,6 @@ import Home from "./routes/home/home.component";
 import ResetPassword from "./routes/reset-password/reset-password.component";
 import "./App.css";
 import AddRecipe from "./routes/add-recipe/add-recipe.component";
-import SearchRecipes from "./routes/search-recipes/search-recipes.component";
 import Favorites from "./routes/favorites/favorites.component";
 
 function App() {
@@ -34,8 +33,11 @@ function App() {
         ) : (
           <Route path="add-recipe" element={<Authentication />}></Route>
         )}
-
-        <Route path="favorites" element={<Favorites />}></Route>
+        {currentUser ? (
+          <Route path="favorites" element={<Favorites />}></Route>
+        ) : (
+          <Route path="recipes" element={<Recipes />}></Route>
+        )}
 
         <Route path="*" element={<Home />}></Route>
       </Route>

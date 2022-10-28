@@ -83,9 +83,11 @@ export default function SignIn() {
         </SignInlabelAndInput>
 
         <a href="reset-password">Forgot password?</a>
-        <UniversalButton label="Sign In" href="/" type="submit">
-          Sign in
-        </UniversalButton>
+        <UniversalButton
+          label="Sign In"
+          href="/"
+          type="submit"
+        ></UniversalButton>
       </SignInForm>
 
       <p>or</p>

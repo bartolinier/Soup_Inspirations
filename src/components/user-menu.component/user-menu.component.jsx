@@ -1,5 +1,8 @@
-import React from "react";
+import { React, useContext } from "react";
+
 import { AiFillHeart } from "react-icons/ai";
+
+import { UserMenuContext } from "../../contexts/user-menu-context";
 
 import {
   MenuList,
@@ -8,9 +11,11 @@ import {
   FavoritesLabel,
   MenuNavLink,
   MenuLogOut,
+  MenuLogOutLabel,
 } from "./user-menu.component.styles";
 
 export default function UserMenu({ email, logoutAction }) {
+  const { userMenu, setUserMenu } = useContext(UserMenuContext);
   return (
     <>
       <UserMenuContainer>
@@ -19,17 +24,29 @@ export default function UserMenu({ email, logoutAction }) {
         </MenuLoggedAsContainer>
 
         <MenuList>
-          <MenuNavLink to="/favorites">
+          <MenuNavLink
+            onClick={() => {
+              setUserMenu(false);
+            }}
+            to="/favorites"
+          >
             <FavoritesLabel>
               Favorites
               <AiFillHeart style={{ color: "#CD2B15" }} />
             </FavoritesLabel>
           </MenuNavLink>
 
-          <MenuNavLink to="/add-recipe">Add recipe</MenuNavLink>
+          <MenuNavLink
+            onClick={() => {
+              setUserMenu(false);
+            }}
+            to="/add-recipe"
+          >
+            Add recipe
+          </MenuNavLink>
 
           <MenuLogOut>
-            <a onClick={logoutAction}>Log out</a>
+            <MenuLogOutLabel onClick={logoutAction}>Log out</MenuLogOutLabel>
           </MenuLogOut>
         </MenuList>
       </UserMenuContainer>

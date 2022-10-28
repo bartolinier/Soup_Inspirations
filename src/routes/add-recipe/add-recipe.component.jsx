@@ -1,6 +1,8 @@
 import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { RiLeafFill } from "react-icons/ri";
+
 import { UserContext } from "../../contexts/user.context";
 
 import { storage } from "../../utils/firebase/firebase";
@@ -12,6 +14,31 @@ import ReactQuill from "react-quill";
 import { quillFormats, quillModules } from "../../utils/quill/quill";
 
 import parse from "html-react-parser";
+
+import {
+  RecipeContainer,
+  SoupName,
+  RecipeImageContainer,
+  RecipeImage,
+  PreparationTimeContainer,
+  PreparationTimeLabel,
+  PreparationTimeValue,
+  VegetarianContainer,
+  VegetarianLabel,
+  VegetarianValue,
+  IngredientsLabel,
+  IngredientsListContainer,
+  IngredientContainer,
+  IngredientQuantity,
+  IngredientUnit,
+  IngredientName,
+  StepsLabel,
+  TipsLabel,
+  StepsContainer,
+  TipsContainer,
+  AddReipeContainer,
+  AddRecipeHeader,
+} from "./add-recipe-component.styles";
 
 export default function AddRecipe({}) {
   const [stepsValue, setStepsValue] = useState("");
@@ -199,13 +226,8 @@ export default function AddRecipe({}) {
   };
 
   return (
-    <>
-      <div>UserProfile</div>
-      <div>UserProfile</div>
-      <div>UserProfile</div>
-
-      <h1>Hello {currentUser.email}!</h1>
-      <h1>Add recipe</h1>
+    <AddReipeContainer>
+      <AddRecipeHeader>Add recipe</AddRecipeHeader>
 
       <form>
         <div>
@@ -370,7 +392,57 @@ export default function AddRecipe({}) {
         <br />
         <br />
 
-        {<img style={{ width: "20%" }} src={imageUrl} />}
+        <RecipeContainer>
+          <SoupName>{formFields.soupName}</SoupName>
+          <RecipeImageContainer>
+            {<RecipeImage src={imageUrl} alt={"Soup Image Area"} />}
+          </RecipeImageContainer>
+
+          <PreparationTimeContainer>
+            <PreparationTimeLabel>
+              Preparation time (minutes):
+            </PreparationTimeLabel>
+            <PreparationTimeValue>
+              {formFields.preparationTime}
+            </PreparationTimeValue>
+          </PreparationTimeContainer>
+
+          <VegetarianContainer>
+            <VegetarianLabel>Vegetarian: </VegetarianLabel>
+            {checkedInput === true ? (
+              <VegetarianValue style={{ color: "green" }}>
+                yes <RiLeafFill style={{ color: "green" }} />
+              </VegetarianValue>
+            ) : (
+              <VegetarianValue style={{ color: "#cd2b15" }}>no</VegetarianValue>
+            )}
+          </VegetarianContainer>
+
+          <IngredientsListContainer>
+            <IngredientsLabel>Ingredients: </IngredientsLabel>
+            <div>
+              {ingredientsArray.map((ingredient, index) => {
+                return (
+                  <IngredientContainer key={index}>
+                    <IngredientQuantity>
+                      {ingredient.ingredientQuantity}
+                    </IngredientQuantity>
+                    <IngredientUnit>{ingredient.ingredientUnit}</IngredientUnit>
+
+                    <IngredientName>{ingredient.ingredientName}</IngredientName>
+                  </IngredientContainer>
+                );
+              })}
+            </div>
+          </IngredientsListContainer>
+
+          <StepsLabel>Steps</StepsLabel>
+          <StepsContainer>{parse(stepsValue)}</StepsContainer>
+          <TipsLabel>Tips</TipsLabel>
+          <TipsContainer>{parse(tipsValue)}</TipsContainer>
+        </RecipeContainer>
+
+        {/* {<img style={{ width: "20%" }} src={imageUrl} />}
         <h2>Soup Name: {formFields.soupName}</h2>
         <h2>Preparation time (minutes): {formFields.preparationTime} </h2>
         <h2>Vegetarian: </h2>
@@ -392,7 +464,7 @@ export default function AddRecipe({}) {
           {parse(stepsValue)}
         </div>
         <h2>Tips</h2>
-        <div>{parse(tipsValue)}</div>
+        <div>{parse(tipsValue)}</div> */}
         {!soupName ||
         !preparationTime ||
         ingredientsArray.length === 0 ||
@@ -410,7 +482,8 @@ export default function AddRecipe({}) {
           </button>
         )}
       </form>
+
       <button onClick={() => navigate("/")}>Cancel</button>
-    </>
+    </AddReipeContainer>
   );
 }

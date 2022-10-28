@@ -2,10 +2,36 @@ import React, { useState, useEffect, useContext } from "react";
 
 import { useParams, useNavigate } from "react-router-dom";
 
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+import { RiLeafFill } from "react-icons/ri";
+import parse from "html-react-parser";
+
 import { UserContext } from "../../contexts/user.context";
 import { FavoritesContext } from "../../contexts/favorites.context";
 
-import parse from "html-react-parser";
+import {
+  RecipeContainer,
+  RecipeLike,
+  SoupName,
+  RecipeImageContainer,
+  RecipeImage,
+  PreparationTimeContainer,
+  PreparationTimeLabel,
+  PreparationTimeValue,
+  VegetarianContainer,
+  VegetarianLabel,
+  VegetarianValue,
+  IngredientsLabel,
+  IngredientsListContainer,
+  IngredientContainer,
+  IngredientQuantity,
+  IngredientUnit,
+  IngredientName,
+  StepsLabel,
+  TipsLabel,
+  StepsContainer,
+  TipsContainer,
+} from "./recipe.component.styles";
 
 export default function Recipe() {
   const { currentUser } = useContext(UserContext);
@@ -73,11 +99,13 @@ export default function Recipe() {
         setSoupIngredients(
           data[0].ingredientsArray.map((ingredient, index) => {
             return (
-              <div key={index}>
-                <p>{ingredient.ingredientName}</p>
-                <p>{ingredient.ingredientQuantity}</p>
-                <p>{ingredient.ingredientUnit}</p>
-              </div>
+              <IngredientContainer key={index}>
+                <IngredientQuantity>
+                  {ingredient.ingredientQuantity}
+                </IngredientQuantity>
+                <IngredientUnit>{ingredient.ingredientUnit}</IngredientUnit>
+                <IngredientName>{ingredient.ingredientName}</IngredientName>
+              </IngredientContainer>
             );
           })
         );
@@ -98,59 +126,61 @@ export default function Recipe() {
   }, []);
 
   return (
-    <>
-      <p>{id}</p>
-      <p>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Velit itaque
-        accusantium numquam vero enim repellat natus eveniet aspernatur aliquam
-        odit, quasi hic quidem. Laudantium delectus ea repellendus nisi, quasi
-        distinctio.
-      </p>
-      <p>{id}</p>
-      <p>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Velit itaque
-        accusantium numquam vero enim repellat natus eveniet aspernatur aliquam
-        odit, quasi hic quidem. Laudantium delectus ea repellendus nisi, quasi
-        distinctio.
-      </p>
+    <RecipeContainer>
+      <SoupName>{soupName}</SoupName>
+      <RecipeImageContainer>
+        {currentUser ? (
+          <RecipeLike
+            onClick={() => {
+              handleAddToFavorites(favRecipeID);
+            }}
+          >
+            {currentUser &&
+            favorites.some(
+              (el) => el.user === currentUser.uid && el.recipeID === favRecipeID
+            ) ? (
+              <AiFillHeart />
+            ) : (
+              <AiOutlineHeart />
+            )}
+          </RecipeLike>
+        ) : (
+          <RecipeLike
+            onClick={() =>
+              alert("Only logged users can add recipes to favorites")
+            }
+          >
+            <AiOutlineHeart />
+          </RecipeLike>
+        )}
+        {<RecipeImage src={soupImage} />}
+      </RecipeImageContainer>
 
-      {currentUser ? (
-        <button
-          onClick={() => {
-            handleAddToFavorites(favRecipeID);
-          }}
-        >
-          {currentUser &&
-          favorites.some(
-            (el) => el.user === currentUser.uid && el.recipeID === favRecipeID
-          )
-            ? "dislike"
-            : "like"}
-        </button>
-      ) : (
-        <button
-          onClick={() =>
-            alert("Only logged users can add recipes to favorites")
-          }
-        >
-          like
-        </button>
-      )}
+      <PreparationTimeContainer>
+        <PreparationTimeLabel>Preparation time (minutes):</PreparationTimeLabel>
+        <PreparationTimeValue> {preparationTime} </PreparationTimeValue>
+      </PreparationTimeContainer>
 
-      {<img style={{ width: "20%" }} src={soupImage} />}
-      <h2>Soup Name: {soupName}</h2>
+      <VegetarianContainer>
+        <VegetarianLabel>Vegetarian: </VegetarianLabel>
+        {vegetarian === true ? (
+          <VegetarianValue style={{ color: "green" }}>
+            yes <RiLeafFill style={{ color: "green" }} />
+          </VegetarianValue>
+        ) : (
+          <VegetarianValue style={{ color: "#cd2b15" }}>no</VegetarianValue>
+        )}
+      </VegetarianContainer>
 
-      <h2>Preparation time (minutes): {preparationTime} </h2>
-      <h2>Vegetarian: </h2>
-      {vegetarian === true ? <p>yes</p> : <p>no</p>}
-      <h2>Ingredients: </h2>
+      <IngredientsListContainer>
+        <IngredientsLabel>Ingredients: </IngredientsLabel>
+        {soupIngredients}
+      </IngredientsListContainer>
 
-      {soupIngredients}
-
-      <h2>Steps</h2>
-      <div style={{ height: "100%", padding: "3rem" }}>{steps}</div>
-      <h2>Tips</h2>
-      {tips}
-    </>
+      <StepsLabel>Steps</StepsLabel>
+      <StepsContainer>{steps}</StepsContainer>
+      <TipsLabel>Tips</TipsLabel>
+      <TipsContainer>{tips}</TipsContainer>
+    </RecipeContainer>
   );
 }

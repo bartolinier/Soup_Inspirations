@@ -1,11 +1,16 @@
 import { updateCurrentUser } from "firebase/auth";
 import { React, useState, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 import { UserContext } from "../../contexts/user.context";
 
 import { FavoritesContext } from "../../contexts/favorites.context";
+import FavoritesListElement from "../../components/favorites-list-element.component/favorites-list-element.component";
 
+import {
+  FavoritesListContainer,
+  FavoritesListHeader,
+} from "./favorites.component.styles";
 export default function Favorites() {
   const { currentUser } = useContext(UserContext);
 
@@ -31,12 +36,8 @@ export default function Favorites() {
   };
 
   return (
-    <>
-      <p>wnjcbij</p>
-      <p>wnjcbij</p>
-      <p>wnjcbij</p>
-      <p>wnjcbij</p>
-
+    <FavoritesListContainer>
+      <FavoritesListHeader>Your Favorites</FavoritesListHeader>
       {recipesFromDB &&
         recipesFromDB.map((recipe, index) => {
           if (
@@ -45,7 +46,24 @@ export default function Favorites() {
             )
           ) {
             return (
-              <div key={index}>
+              <FavoritesListElement
+                key={index}
+                recipeID={recipe._id}
+                recipeImageUrl={recipe.imageUrl}
+                recipeSoupName={recipe.soupName}
+                action={() => {
+                  handleRemoveFromFavorites(recipe._id);
+                }}
+                label="Remove from Favorites"
+              />
+            );
+          }
+        })}
+    </FavoritesListContainer>
+  );
+}
+{
+  /* <div key={index}>
                 <Link to={`/recipes/${recipe._id}`}>
                   <div>
                     <img
@@ -63,10 +81,5 @@ export default function Favorites() {
                 >
                   Remove from list
                 </button>
-              </div>
-            );
-          }
-        })}
-    </>
-  );
+              </div> */
 }

@@ -73,7 +73,7 @@ export const MenuNavLink = styled(NavLink)`
   }
 `;
 
-export const MenuLogOut = styled(NavLink)`
+export const MenuLogOut = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -85,8 +85,10 @@ export const MenuLogOut = styled(NavLink)`
   font-weight: 500;
   background-color: ${colorsAndShadows.mainGray};
   box-shadow: 0px 2px 3px lightgray;
+  cursor: pointer;
 
   &:hover {
     background-color: ${colorsAndShadows.grayHover};
   }
 `;
+export const MenuLogOutLabel = styled.p``;

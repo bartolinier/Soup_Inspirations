@@ -19,7 +19,7 @@ export const NavigationContainer = styled.div`
   align-items: center;
   padding-right: 1rem;
   box-shadow: ${colorsAndShadows.grayShadow};
-  opacity: 0.98;
+  opacity: 0.99;
   position: fixed;
   z-index: 1000;
 `;

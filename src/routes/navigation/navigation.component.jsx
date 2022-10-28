@@ -15,6 +15,8 @@ import { signOutUser } from "../../utils/firebase/firebase";
 import { UserContext } from "../../contexts/user.context";
 import { FavoritesContext } from "../../contexts/favorites.context";
 
+import { UserMenuContext } from "../../contexts/user-menu-context";
+
 import UserThumb from "../../components/user-name-thumb.component/user-name-thumb.component";
 import UserMenu from "../../components/user-menu.component/user-menu.component";
 
@@ -23,8 +25,7 @@ export default function Navigation() {
 
   const { currentUser } = useContext(UserContext);
   const { favorites } = useContext(FavoritesContext);
-
-  const [userMenu, setUserMenu] = useState(false);
+  const { userMenu, setUserMenu } = useContext(UserMenuContext);
 
   const handleUserMenu = () => {
     setUserMenu((prev) => !prev);
@@ -33,16 +34,20 @@ export default function Navigation() {
   return (
     <>
       <NavigationContainer>
-        <NavigationLogoContainer to="/">
+        <NavigationLogoContainer onClick={() => setUserMenu(false)} to="/">
           <TbSoup style={{ fontSize: "2.5rem" }}></TbSoup>
           <p>Soup Inspirations</p>
         </NavigationLogoContainer>
 
         <NavLinks>
-          <NavigationLink to="/recipes">Recipes</NavigationLink>
+          <NavigationLink onClick={() => setUserMenu(false)} to="/recipes">
+            Recipes
+          </NavigationLink>
 
           {currentUser ? (
-            <NavigationLink to="/favorites">Favorites</NavigationLink>
+            <NavigationLink onClick={() => setUserMenu(false)} to="/favorites">
+              Favorites
+            </NavigationLink>
           ) : null}
 
           {currentUser ? (
@@ -51,7 +56,12 @@ export default function Navigation() {
               email={currentUser.email.toUpperCase()}
             />
           ) : (
-            <NavigationLink to="/authentication">Sign In</NavigationLink>
+            <NavigationLink
+              onClick={() => setUserMenu(false)}
+              to="/authentication"
+            >
+              Sign In
+            </NavigationLink>
           )}
         </NavLinks>
       </NavigationContainer>
@@ -60,7 +70,6 @@ export default function Navigation() {
           logoutAction={() => {
             handleUserMenu();
             signOutUser();
-            navigate("/");
           }}
           email={currentUser.email}
         />

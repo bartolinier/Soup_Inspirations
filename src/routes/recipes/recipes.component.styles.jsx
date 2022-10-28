@@ -14,7 +14,7 @@ export const RecipesContainer = styled.div`
   gap: 2rem;
   justify-items: center;
   align-items: center;
-  padding-top: 4.5rem;
+  padding-top: 4rem;
 `;
 
 export const RecipesHeader = styled.h1`
