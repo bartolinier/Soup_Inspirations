@@ -13,6 +13,8 @@ import {
   SignInHeader,
   SignInForm,
   SignInlabelAndInput,
+  WrongEmailMsg,
+  WrongPasswordMsg,
 } from "./sign-in.component.styles";
 
 const defaultFormFields = {
@@ -22,6 +24,10 @@ const defaultFormFields = {
 
 export default function SignIn() {
   const navigate = useNavigate();
+
+  const [wrongEmailMsg, setWrongEmailMsg] = useState(false);
+
+  const [wrongPasswordMsg, setWrongPasswordMsg] = useState(false);
 
   const [formFields, setFormFields] = useState(defaultFormFields);
 
@@ -39,8 +45,15 @@ export default function SignIn() {
       navigate("/");
       resetFormFields();
     } catch (error) {
-      if (!email) {
-        console.log("brak maila");
+      switch (error.code) {
+        case "auth/wrong-password":
+          setWrongPasswordMsg(true);
+          break;
+        case "auth/user-not-found":
+          setWrongEmailMsg(true);
+          break;
+        default:
+          navigate("/error-page");
       }
     }
   };
@@ -71,6 +84,9 @@ export default function SignIn() {
             value={email}
           />
         </SignInlabelAndInput>
+        {wrongEmailMsg ? (
+          <WrongEmailMsg>Wrong email address!</WrongEmailMsg>
+        ) : null}
         <SignInlabelAndInput>
           <label htmlFor="password"> password </label>
           <input
@@ -81,6 +97,10 @@ export default function SignIn() {
             value={password}
           />
         </SignInlabelAndInput>
+
+        {wrongPasswordMsg ? (
+          <WrongPasswordMsg>Wrong password!</WrongPasswordMsg>
+        ) : null}
 
         <a href="reset-password">Forgot password?</a>
         <UniversalButton

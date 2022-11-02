@@ -10,13 +10,13 @@ import {
   ResetPasswordHeader,
   ResetPasswordForm,
   ResetPasswordLabelAndInput,
+  WrongEmailMsg,
 } from "./reset-password.component.styles";
 
 const auth = getAuth();
 
 const defaultFormFields = {
   email: "",
-  password: "",
 };
 
 export default function ResetPassword() {
@@ -24,9 +24,11 @@ export default function ResetPassword() {
 
   const location = useLocation();
 
+  const [wrongEmailMsg, setWrongEmailMsg] = useState(false);
+
   const [formFields, setFormFields] = useState(defaultFormFields);
 
-  const { email, password } = formFields;
+  const { email } = formFields;
 
   const resetFormFields = () => {
     setFormFields(defaultFormFields);
@@ -34,17 +36,20 @@ export default function ResetPassword() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    try {
+      await sendPasswordResetEmail(auth, email);
 
-    sendPasswordResetEmail(auth, email)
-      .then(() => {
-        alert("Check Your email to reset your password");
-      })
-
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        alert("Password reset failed!");
-      });
+      resetFormFields();
+      navigate("/reset-password-ok");
+    } catch (error) {
+      switch (error.code) {
+        case "auth/invalid-email":
+          setWrongEmailMsg(true);
+          break;
+        default:
+          navigate("/error-page");
+      }
+    }
   };
 
   const handleChange = (event) => {
@@ -59,7 +64,7 @@ export default function ResetPassword() {
 
       <ResetPasswordForm>
         <ResetPasswordLabelAndInput>
-          <label htmlFor="email">email:</label>
+          <label htmlFor="email">Your email:</label>
           <input
             type="email"
             required
@@ -69,6 +74,10 @@ export default function ResetPassword() {
             value={email}
           />
         </ResetPasswordLabelAndInput>
+        {wrongEmailMsg ? (
+          <WrongEmailMsg>Wrong user email!</WrongEmailMsg>
+        ) : null}
+
         <UniversalButton
           label={"Reset password"}
           action={handleSubmit}

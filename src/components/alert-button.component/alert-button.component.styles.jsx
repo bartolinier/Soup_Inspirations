@@ -2,12 +2,13 @@ import styled from "styled-components";
 
 const colorsAndShadows = {
   mainGrey: "#EAE8E8",
-  grayShadow: "0rem 0.2rem 0.3rem gray",
   blackShadow: "0rem 0.2rem 1rem black",
+  grayShadow: "0rem 0.2rem 0.3rem gray",
   fontMainColor: "#2E292F",
+  mainOrange: "#da5f02",
+  alertRed: " #cd2b15",
 };
-
-export const AlertButton = styled.button`
+export const Button = styled.button`
   width: max-content;
   height: 2rem;
 
@@ -18,7 +19,7 @@ export const AlertButton = styled.button`
   font-weight: 500;
   font-family: "Jost", sans-serif;
 
-  color: #cd2b14;
+  color: ${colorsAndShadows.alertRed};
   cursor: pointer;
   border: none;
   text-decoration: none;

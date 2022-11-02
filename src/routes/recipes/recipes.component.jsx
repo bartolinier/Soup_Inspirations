@@ -29,6 +29,10 @@ export default function Recipes() {
   const [recipesFromDB, setRecipesfromDB] = useState(null);
   const [query, setQuery] = useState([]);
 
+  let ingredients = [];
+  const [ingredientsList, setIngredientsList] = useState([]);
+  const [filteredIngredientsList, setFilteredIngredientsList] = useState([]);
+
   // Import recipes from database
 
   useEffect(() => {
@@ -41,9 +45,35 @@ export default function Recipes() {
       .catch((error) => console.log(error));
   }, []);
 
+  recipesFromDB &&
+    recipesFromDB.forEach((recipe) => {
+      recipe.ingredientsArray.forEach((el) => {
+        ingredients.push(el.ingredientName);
+      });
+    });
+
+  useEffect(() => {
+    setIngredientsList(ingredients);
+  }, []);
+
   const handleChange = (event) => {
     const { value } = event.target;
     setQuery(value.toLowerCase());
+    const filteredIngredients = ingredients
+      .filter((el) => el.toLowerCase().includes(query))
+      .map((el, index) => {
+        return (
+          <div key={index}>
+            <p>{el}</p>
+          </div>
+        );
+      });
+
+    {
+      value.length >= 3
+        ? setFilteredIngredientsList(filteredIngredients)
+        : setFilteredIngredientsList([]);
+    }
   };
 
   const handleAddToFavorites = (id) => {
@@ -69,6 +99,7 @@ export default function Recipes() {
     <>
       <RecipesContainer>
         <RecipesHeader>Recipes</RecipesHeader>
+        {filteredIngredientsList}
         <SearchRecipesContainer>
           <SearchRecipesHeaderContainer>
             <SearchRecipesHeader>Search by ingredient</SearchRecipesHeader>

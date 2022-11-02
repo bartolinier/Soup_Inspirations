@@ -17,9 +17,7 @@ root.render(
       <UserMenuProvider>
         <>
           <FavoritesProvider>
-            <React.StrictMode>
-              <App />
-            </React.StrictMode>
+            <App />
           </FavoritesProvider>
         </>
       </UserMenuProvider>

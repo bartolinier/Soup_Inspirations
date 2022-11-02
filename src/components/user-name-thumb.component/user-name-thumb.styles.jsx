@@ -3,8 +3,10 @@ import styled from "styled-components";
 const colorsAndShadows = {
   mainGrey: "#EAE8E8",
   blackShadow: "0rem 0.2rem 1rem black",
+  grayShadow: "0rem 0.2rem 0.3rem gray",
   fontMainColor: "#2E292F",
   mainOrange: "#da5f02",
+  alertRed: " #cd2b15",
 };
 
 export const UserNameThumbContainer = styled.span`

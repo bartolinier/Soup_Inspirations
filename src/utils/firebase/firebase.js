@@ -76,12 +76,14 @@ export const SignInWithGooglePopup = async () => {
 
 export const onAuthStateChangedListener = (callback) => onAuthStateChanged(auth, callback);
 
-export const signOutUser = async () => {
 
-    await signOut(auth);
+
+export const SignInAuthUserWithEmailAndPassword = async (email, password) => {
+    if (!email || !password) return;
+
+    return await signInWithEmailAndPassword(auth, email, password)
 
 }
-
 
 export const createAuthUserWithEmailAndPassword = async (email, password) => {
     if (!email || !password) return;
@@ -90,23 +92,10 @@ export const createAuthUserWithEmailAndPassword = async (email, password) => {
 };
 
 
-export const SignInAuthUserWithEmailAndPassword = async (email, password) => {
+export const signOutUser = async () => {
 
-    signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-            // Signed in 
-            const user = userCredential.user;
-            // ...
+    await signOut(auth);
 
-        })
-        .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            alert(errorMessage)
-        });
 }
-
-
-
 
 export const storage = getStorage(app);

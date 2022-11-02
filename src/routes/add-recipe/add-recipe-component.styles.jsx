@@ -6,9 +6,10 @@ const colorsAndShadows = {
   grayShadow: "0rem 0.2rem 0.3rem gray",
   fontMainColor: "#2E292F",
   mainOrange: "#da5f02",
+  alertRed: " #cd2b15",
 };
 
-export const AddReipeContainer = styled.div`
+export const AddRecipeContainer = styled.div`
   padding-top: 4rem;
   display: flex;
   flex-direction: column;
@@ -22,8 +23,69 @@ export const AddRecipeHeader = styled.h1`
   color: ${colorsAndShadows.fontMainColor};
 `;
 
+export const AddRecipeForm = styled.form`
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  justify-content: center;
+  align-items: left;
+`;
+
+export const AddRecipeInputContainer = styled.div`
+  width: 100%;
+  display: flex;
+  gap: 1rem;
+  justify-content: left;
+  align-items: center;
+`;
+
+export const IngredientList = styled.div`
+  width: max-content;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  justify-content: center;
+  align-items: left;
+  font-size: 1.2rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+`;
+
+export const AddIngredientInputContainer = styled.div`
+  width: max-content;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  justify-content: center;
+  align-items: left;
+  font-size: 1.2rem;
+`;
+
+export const AddRecipeInput = styled.input`
+  width: ${({ variant }) => (variant === "short" ? "5rem" : "100%")};
+  height: 2rem;
+  padding: 0.3rem;
+  font-family: "Jost", sans-serif;
+  font-size: 1.2rem;
+`;
+
+export const AddRecipeSelect = styled.select`
+  width: 10rem;
+  height: 2rem;
+
+  font-family: "Jost", sans-serif;
+  font-size: 1.1rem;
+`;
+
+export const AddRecipeOption = styled.option`
+  width: 10rem;
+  height: 2rem;
+  padding: 0.3rem;
+  font-family: "Jost", sans-serif;
+`;
+
 export const RecipeContainer = styled.div`
-  padding-top: 4.5rem;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -40,7 +102,7 @@ export const RecipeLike = styled.div`
   width: 2rem;
   height: 2rem;
   font-size: 2rem;
-  color: #cd2b15;
+  color: ${colorsAndShadows.alertRed};
   position: absolute;
   right: 0;
   cursor: pointer;
@@ -130,7 +192,7 @@ export const IngredientContainer = styled.div`
 
   align-items: center;
 
-  gap: 0.3rem;
+  gap: 0.9rem;
   border-bottom: 1px solid ${colorsAndShadows.mainGrey};
 `;
 
@@ -180,4 +242,10 @@ export const TipsContainer = styled.div`
   gap: 0.3rem;
   border-bottom: 1px solid ${colorsAndShadows.mainGrey};
   box-shadow: ${colorsAndShadows.grayShadow};
+`;
+
+export const AlertText = styled.p`
+  color: ${colorsAndShadows.alertRed};
+  font-size: 1rem;
+  font-weight: 700;
 `;

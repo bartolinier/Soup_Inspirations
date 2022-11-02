@@ -1,4 +1,5 @@
-import { React, useState, useContext } from "react";
+import { React, useState, useContext, useEffect } from "react";
+import ReCAPTCHA from "react-google-recaptcha";
 
 import { useNavigate } from "react-router-dom";
 
@@ -13,6 +14,8 @@ import {
   SignUpHeader,
   SignUpForm,
   SignUplabelAndInput,
+  WrongEmailMsg,
+  PasswordsNoMatchMsg,
 } from "./sign-up.component.styles";
 
 const defaultFormFields = {
@@ -23,6 +26,9 @@ const defaultFormFields = {
 
 export default function SignUp() {
   const navigate = useNavigate();
+
+  const [wrongEmailMsg, setWrongEmailMsg] = useState(false);
+  const [passwordsNoMatchMsg, setPasswordsNoMatchMsg] = useState(false);
 
   const { currentUser, setCurrentUser } = useContext(UserContext);
 
@@ -36,10 +42,9 @@ export default function SignUp() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    navigate("/");
 
     if (password !== confirmPassword) {
-      alert("passwords do not match");
+      setPasswordsNoMatchMsg(true);
       return;
     }
 
@@ -54,9 +59,8 @@ export default function SignUp() {
       resetFormFields();
     } catch (error) {
       if (error.code === "auth/email-already-in-use") {
-        alert("email already used!");
+        setWrongEmailMsg(true);
       }
-      console.log(error.message);
     }
   };
 
@@ -65,6 +69,15 @@ export default function SignUp() {
 
     setFormFields({ ...formFields, [name]: value });
   };
+
+  // reCaptcha
+
+  const recaptchaKey = process.env.REACT_APP_RECAP;
+  const [verified, setVerified] = useState(false);
+
+  function onChange(value) {
+    setVerified(true);
+  }
 
   return (
     <SignUpContainer>
@@ -81,8 +94,12 @@ export default function SignUp() {
             onChange={handleChange}
           />
         </SignUplabelAndInput>
+        {wrongEmailMsg ? (
+          <WrongEmailMsg>Email already in use!</WrongEmailMsg>
+        ) : null}
+
         <SignUplabelAndInput>
-          <label htmlFor="password"> password* </label>
+          <label htmlFor="password"> password (min. 6 char.)* </label>
           <input
             type="password"
             name="password"
@@ -103,7 +120,15 @@ export default function SignUp() {
             onChange={handleChange}
           />
         </SignUplabelAndInput>
-        <UniversalButton label="Sign up" type="submit"></UniversalButton>
+        {passwordsNoMatchMsg && !wrongEmailMsg ? (
+          <PasswordsNoMatchMsg>Passwords don't match!</PasswordsNoMatchMsg>
+        ) : null}
+        <ReCAPTCHA sitekey={recaptchaKey} onChange={onChange} />
+        <UniversalButton
+          disabled={!verified}
+          label="Sign up"
+          type="submit"
+        ></UniversalButton>
       </SignUpForm>
     </SignUpContainer>
   );

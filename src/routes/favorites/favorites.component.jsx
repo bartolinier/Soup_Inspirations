@@ -1,6 +1,9 @@
-import { updateCurrentUser } from "firebase/auth";
+import {
+  reauthenticateWithPhoneNumber,
+  updateCurrentUser,
+} from "firebase/auth";
 import { React, useState, useEffect, useContext } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { UserContext } from "../../contexts/user.context";
 
@@ -11,7 +14,9 @@ import {
   FavoritesListContainer,
   FavoritesListHeader,
 } from "./favorites.component.styles";
+import UniversalButton from "../../components/universal-button.component/universal-button.component";
 export default function Favorites() {
+  const navigate = useNavigate();
   const { currentUser } = useContext(UserContext);
 
   const { favorites, setFavorites } = useContext(FavoritesContext);
@@ -38,7 +43,9 @@ export default function Favorites() {
   return (
     <FavoritesListContainer>
       <FavoritesListHeader>Your Favorites</FavoritesListHeader>
-      {recipesFromDB &&
+
+      {favorites.some((el) => el.user === currentUser.uid) ? (
+        recipesFromDB &&
         recipesFromDB.map((recipe, index) => {
           if (
             favorites.some(
@@ -58,7 +65,18 @@ export default function Favorites() {
               />
             );
           }
-        })}
+        })
+      ) : (
+        <>
+          <p>No favorites...</p>
+          <UniversalButton
+            label="Go to Recipes"
+            action={() => {
+              navigate("/recipes");
+            }}
+          />
+        </>
+      )}
     </FavoritesListContainer>
   );
 }

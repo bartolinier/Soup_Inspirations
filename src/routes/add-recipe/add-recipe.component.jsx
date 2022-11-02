@@ -5,6 +5,8 @@ import { RiLeafFill } from "react-icons/ri";
 
 import { UserContext } from "../../contexts/user.context";
 
+import AlertButton from "../../components/alert-button.component/alert-button.component";
+
 import { storage } from "../../utils/firebase/firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
@@ -16,6 +18,14 @@ import { quillFormats, quillModules } from "../../utils/quill/quill";
 import parse from "html-react-parser";
 
 import {
+  AddRecipeContainer,
+  AddRecipeHeader,
+  AddRecipeForm,
+  AddRecipeInputContainer,
+  AddIngredientInputContainer,
+  AddRecipeInput,
+  AddRecipeSelect,
+  AddRecipeOption,
   RecipeContainer,
   SoupName,
   RecipeImageContainer,
@@ -28,6 +38,7 @@ import {
   VegetarianValue,
   IngredientsLabel,
   IngredientsListContainer,
+  IngredientList,
   IngredientContainer,
   IngredientQuantity,
   IngredientUnit,
@@ -36,9 +47,9 @@ import {
   TipsLabel,
   StepsContainer,
   TipsContainer,
-  AddReipeContainer,
-  AddRecipeHeader,
+  AlertText,
 } from "./add-recipe-component.styles";
+import UniversalButton from "../../components/universal-button.component/universal-button.component";
 
 export default function AddRecipe({}) {
   const [stepsValue, setStepsValue] = useState("");
@@ -221,18 +232,23 @@ export default function AddRecipe({}) {
     setFormFields(defaultFormFields);
     setIngredientFields(defaultIngredientFields);
     setIngredientsArray([]);
-    console.log(formFields);
+
     handleSendRecipe();
   };
 
   return (
-    <AddReipeContainer>
-      <AddRecipeHeader>Add recipe</AddRecipeHeader>
+    <AddRecipeContainer>
+      <AddRecipeHeader>Add recipe (Admin account only!)</AddRecipeHeader>
+      <p>
+        ...but feel free to play with form :-) Live preview of added recipe
+        below.
+      </p>
 
-      <form>
-        <div>
+      <AddRecipeForm>
+        <AddRecipeInputContainer>
           <label htmlFor="soup-name">Soup name (max 50 char.)</label>
-          <input
+          <AddRecipeInput
+            variant="max-length"
             required
             type="text"
             id="soup-name"
@@ -242,22 +258,22 @@ export default function AddRecipe({}) {
             placeholder="Type soup name..."
             maxLength={50}
           />
-        </div>
+        </AddRecipeInputContainer>
 
-        <div>
+        <AddRecipeInputContainer>
           <label htmlFor="prep-time">Preparation time (minutes)</label>
-          <input
+          <AddRecipeInput
+            variant="short"
             required
             type="number"
             id="prep-time"
             name="preparationTime"
             value={preparationTime}
             onChange={handleChange}
-            placeholder="Type preparation time in minutes..."
             min={1}
           />
-        </div>
-        <div>
+        </AddRecipeInputContainer>
+        <AddRecipeInputContainer>
           <label htmlFor="vege">Vegetarian</label>
           <input
             required
@@ -268,68 +284,83 @@ export default function AddRecipe({}) {
             value={checkedInput}
             onChange={handleCheckboxChange}
           />
-        </div>
+        </AddRecipeInputContainer>
 
         <div>
           <h2>Ingredients</h2>
           {ingredientsArray.length === 0 ? (
-            <p> Add at least one ingredient!</p>
+            <AlertText> Add at least one ingredient!</AlertText>
           ) : null}
           <div>
             {ingredientsArray.map((ingredient, index) => {
               return (
-                <div key={index}>
-                  <p>{ingredient.ingredientName}</p>
-                  <p>{ingredient.ingredientQuantity}</p>
-                  <p>{ingredient.ingredientUnit}</p>
-                  <button
-                    onClick={() => {
-                      handleRemoveIngredient(ingredient.ingredientId);
-                    }}
-                  >
-                    delete ingredient
-                  </button>
-                </div>
+                <IngredientList key={index}>
+                  <IngredientContainer>
+                    <IngredientQuantity>
+                      {ingredient.ingredientQuantity}
+                    </IngredientQuantity>
+                    <IngredientUnit>{ingredient.ingredientUnit}</IngredientUnit>
+
+                    <IngredientName>{ingredient.ingredientName}</IngredientName>
+
+                    <AlertButton
+                      label={"delete ingredient"}
+                      action={() => {
+                        handleRemoveIngredient(ingredient.ingredientId);
+                      }}
+                    ></AlertButton>
+                  </IngredientContainer>
+                </IngredientList>
               );
             })}
           </div>
-          <input
-            type="text"
-            id="ingredient-name"
-            name="ingredientName"
-            value={ingredientName}
-            onChange={handleIngredientChange}
-            placeholder="Type ingredient..."
-          />
-          <input
-            type="number"
-            id="ingredient-qty"
-            name="ingredientQuantity"
-            value={ingredientQuantity}
-            onChange={handleIngredientChange}
-            placeholder="Type quantity"
-            min={0}
-          />
-          <select onChange={handleUnitChange}>
-            {unitOptions.map((option, index) => {
-              return (
-                <option key={index} value={option.value}>
-                  {option.label}
-                </option>
-              );
-            })}
-          </select>
-          {!ingredientName || !ingredientQuantity || !ingredientUnit ? (
-            <>
-              <button disabled onClick={handleIngredientBuild}>
-                Add ingredient
-              </button>
-              <p>Please fill out all fields to add ingredient.</p>
-            </>
-          ) : (
-            <button onClick={handleIngredientBuild}>Add ingredient</button>
-          )}
-
+          <AddIngredientInputContainer>
+            <AddRecipeInput
+              type="text"
+              id="ingredient-name"
+              name="ingredientName"
+              value={ingredientName}
+              onChange={handleIngredientChange}
+              placeholder="Type ingredient..."
+            />
+            <AddRecipeInput
+              type="number"
+              id="ingredient-qty"
+              name="ingredientQuantity"
+              value={ingredientQuantity}
+              onChange={handleIngredientChange}
+              placeholder="Type quantity"
+              min={0}
+            />
+            <AddRecipeSelect onChange={handleUnitChange}>
+              {unitOptions.map((option, index) => {
+                return (
+                  <AddRecipeOption key={index} value={option.value}>
+                    {option.label}
+                  </AddRecipeOption>
+                );
+              })}
+            </AddRecipeSelect>
+            {!ingredientName || !ingredientQuantity || !ingredientUnit ? (
+              <>
+                <UniversalButton
+                  disabled={true}
+                  label="Add ingredient"
+                  action={handleIngredientBuild}
+                >
+                  Add ingredient
+                </UniversalButton>
+                <AlertText>
+                  Please fill out all fields above to add ingredient!
+                </AlertText>
+              </>
+            ) : (
+              <UniversalButton
+                label="Add ingredient"
+                action={handleIngredientBuild}
+              ></UniversalButton>
+            )}
+          </AddIngredientInputContainer>
           <h2>Steps</h2>
 
           <ReactQuill
@@ -350,8 +381,12 @@ export default function AddRecipe({}) {
             value={tipsValue}
             onChange={setTipsValue}
           />
-          <label htmlFor="recipe-photo">Upload image (max. size: 1MB)</label>
+          <br></br>
+          <label htmlFor="recipe-photo">
+            Upload image (max. size: 1MB) - Admin only!
+          </label>
           <input
+            disabled={currentUser.uid != process.env.REACT_APP_IDAD}
             type="file"
             name="recipe-photo"
             id="recipe-photo"
@@ -371,6 +406,8 @@ export default function AddRecipe({}) {
                   alert("File is too big");
                   setImageUpload(null);
                   setUploadButton(false);
+                } else if (currentUser.uid != process.env.REACT_APP_IDAD) {
+                  setUploadButton(false);
                 } else {
                   setUploadButton(false);
                 }
@@ -378,19 +415,20 @@ export default function AddRecipe({}) {
             }}
           />
           {!uploadButton ? (
-            <button disabled onClick={uploadFile}>
-              Upload image
-            </button>
+            <UniversalButton
+              label="Upload image"
+              disabled={true}
+              action={uploadFile}
+            ></UniversalButton>
           ) : (
-            <button onClick={uploadFile}>Upload image</button>
+            <UniversalButton
+              label="Upload image"
+              action={uploadFile}
+            ></UniversalButton>
           )}
         </div>
-        <br />
-        <br />
 
         <h1>Live preview</h1>
-        <br />
-        <br />
 
         <RecipeContainer>
           <SoupName>{formFields.soupName}</SoupName>
@@ -465,25 +503,32 @@ export default function AddRecipe({}) {
         </div>
         <h2>Tips</h2>
         <div>{parse(tipsValue)}</div> */}
-        {!soupName ||
-        !preparationTime ||
-        ingredientsArray.length === 0 ||
-        !stepsValue ||
-        currentUser.uid != process.env.REACT_APP_FIREBASE_IDAD ? (
+        {(!soupName ||
+          !preparationTime ||
+          ingredientsArray.length === 0 ||
+          !stepsValue) &&
+        currentUser.uid != process.env.REACT_APP_IDAD ? (
           <>
-            <button type="submit" disabled onClick={handleSubmit}>
-              Save recipe (Admin account only!)
-            </button>
-            <p>Please fill out all fields to save Your recipe</p>
+            <UniversalButton
+              disabled={true}
+              label="Save recipe (Admin account only!)"
+              type="submit"
+              action={handleSubmit}
+            ></UniversalButton>
+            <AlertText>
+              Please fill out all fields to save Your recipe!
+            </AlertText>
           </>
         ) : (
-          <button type="submit" onClick={handleSubmit}>
-            Save recipe
-          </button>
+          <UniversalButton
+            label="Save"
+            type="submit"
+            action={handleSubmit}
+          ></UniversalButton>
         )}
-      </form>
+      </AddRecipeForm>
 
-      <button onClick={() => navigate("/")}>Cancel</button>
-    </AddReipeContainer>
+      <AlertButton label={"Cancel"} action={() => navigate("/")}></AlertButton>
+    </AddRecipeContainer>
   );
 }

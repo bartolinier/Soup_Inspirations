@@ -45,8 +45,8 @@ export default function UserMenu({ email, logoutAction }) {
             Add recipe
           </MenuNavLink>
 
-          <MenuLogOut>
-            <MenuLogOutLabel onClick={logoutAction}>Log out</MenuLogOutLabel>
+          <MenuLogOut onClick={logoutAction}>
+            <MenuLogOutLabel>Log out</MenuLogOutLabel>
           </MenuLogOut>
         </MenuList>
       </UserMenuContainer>

@@ -1,8 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
-import { AlertButton } from "../alert-button.component/alert-button.component.styles";
-
+import AlertButton from "../alert-button.component/alert-button.component";
 import {
   FavListElementContainer,
   FavRecipeLink,
@@ -30,7 +29,9 @@ export default function FavoritesListElement({
           <FavListElementSoupName>{recipeSoupName}</FavListElementSoupName>
         </FavListSoupNameAndImgContainer>
       </FavRecipeLink>
-      <AlertButton onClick={action}>{label}</AlertButton>
+      <AlertButton action={action} label={label}>
+        {label}
+      </AlertButton>
     </FavListElementContainer>
   );
 }

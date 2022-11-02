@@ -1,11 +1,11 @@
 import React from "react";
 
-import { AlertButton } from "./alert-button.component.styles";
+import { Button } from "./alert-button.component.styles";
 
-export default function AlertButton({ label }) {
+export default function AlertButton({ label, action }) {
   return (
     <>
-      <AlertButton>{label}</AlertButton>
+      <Button onClick={action}>{label}</Button>
     </>
   );
 }
