@@ -8,7 +8,7 @@ const colorsAndShadows = {
   alertRed: " #cd2b15",
 };
 
-export const Button = styled.button`
+export const Button = styled.div`
   width: max-content;
   height: 2rem;
   background-color: ${colorsAndShadows.mainGrey};

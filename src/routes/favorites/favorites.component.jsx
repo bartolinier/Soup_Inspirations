@@ -1,7 +1,3 @@
-import {
-  reauthenticateWithPhoneNumber,
-  updateCurrentUser,
-} from "firebase/auth";
 import { React, useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -61,7 +57,7 @@ export default function Favorites() {
                 action={() => {
                   handleRemoveFromFavorites(recipe._id);
                 }}
-                label="Remove from Favorites"
+                label="Remove"
               />
             );
           }

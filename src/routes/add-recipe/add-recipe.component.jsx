@@ -47,6 +47,7 @@ import {
   TipsLabel,
   StepsContainer,
   TipsContainer,
+  AlertTextContainer,
   AlertText,
 } from "./add-recipe-component.styles";
 import UniversalButton from "../../components/universal-button.component/universal-button.component";
@@ -286,10 +287,12 @@ export default function AddRecipe({}) {
           />
         </AddRecipeInputContainer>
 
-        <div>
+        <>
           <h2>Ingredients</h2>
           {ingredientsArray.length === 0 ? (
-            <AlertText> Add at least one ingredient!</AlertText>
+            <AlertTextContainer>
+              <AlertText> Add at least one ingredient!</AlertText>
+            </AlertTextContainer>
           ) : null}
           <div>
             {ingredientsArray.map((ingredient, index) => {
@@ -350,9 +353,11 @@ export default function AddRecipe({}) {
                 >
                   Add ingredient
                 </UniversalButton>
-                <AlertText>
-                  Please fill out all fields above to add ingredient!
-                </AlertText>
+                <AlertTextContainer>
+                  <AlertText>
+                    Please fill out all fields above to add ingredient!
+                  </AlertText>
+                </AlertTextContainer>
               </>
             ) : (
               <UniversalButton
@@ -426,7 +431,7 @@ export default function AddRecipe({}) {
               action={uploadFile}
             ></UniversalButton>
           )}
-        </div>
+        </>
 
         <h1>Live preview</h1>
 

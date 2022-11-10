@@ -1,5 +1,7 @@
 import styled from "styled-components";
 
+import { device } from "../../utils/media-queries/media-queries";
+
 const colorsAndShadows = {
   mainGrey: "#EAE8E8",
   blackShadow: "0rem 0.2rem 1rem black",
@@ -10,47 +12,71 @@ const colorsAndShadows = {
 };
 
 export const SignUpContainer = styled.div`
-  width: min-content;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  justify-content: center;
-  align-items: flex-end;
-  text-align: end;
-`;
-
-export const SignUpHeader = styled.h2`
-  color: ${colorsAndShadows.fontMainColor};
-`;
-
-export const SignUpForm = styled.form`
   width: max-content;
   display: flex;
   flex-direction: column;
   gap: 1rem;
   justify-content: center;
   align-items: flex-end;
+  text-align: end;
+  padding-top: 3rem;
 
-  & > a {
-    color: ${colorsAndShadows.fontMainColor};
+  @media only screen and (${device.mobileXS}) {
+    width: 100%;
   }
 `;
 
+export const SignUpHeader = styled.h2`
+  color: ${colorsAndShadows.fontMainColor};
+  @media only screen and (${device.mobileXS}) {
+    font-size: 2rem;
+  }
+`;
+
+export const SignUpForm = styled.form`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  justify-content: center;
+  align-items: flex-end;
+`;
+
 export const SignUplabelAndInput = styled.div`
+  width: 100%;
   display: flex;
   gap: 1rem;
   justify-content: center;
   align-items: center;
 
   & > label {
-    width: max-content;
+    width: 50%;
+    @media only screen and (${device.mobileXS}) {
+      width: 30%;
+    }
+    @media only screen and (${device.mobile}) {
+      width: 30%;
+    }
+    @media only screen and (${device.large}) {
+      width: 50%;
+    }
   }
   & > input {
+    width: 50%;
     height: 2rem;
-    width: 15rem;
     padding: 0.2rem;
     font-size: 1.1rem;
     font-family: "Jost", sans-serif;
+
+    @media only screen and (${device.mobileXS}) {
+      width: 70%;
+    }
+    @media only screen and (${device.mobile}) {
+      width: 70%;
+    }
+    @media only screen and (${device.large}) {
+      width: 50%;
+    }
   }
 `;
 
@@ -72,4 +98,16 @@ export const PasswordsNoMatchMsg = styled.div`
   justify-content: center;
   align-items: flex-end;
   color: ${colorsAndShadows.alertRed};
+`;
+
+export const ReCaptchaContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  width: 100%;
+
+  @media only screen and (${device.mobileXS}) {
+    transform: scale(0.7);
+    width: 0%;
+  }
 `;

@@ -1,5 +1,9 @@
 import { React } from "react";
 
+import { useNavigate } from "react-router-dom";
+
+import UniversalButton from "../../components/universal-button.component/universal-button.component";
+
 import {
   HomeContainer,
   MainPageTxtContainer,
@@ -10,6 +14,7 @@ import {
 } from "./home.component.styles";
 
 export default function Home() {
+  const navigate = useNavigate();
   return (
     <>
       <HomeContainer>

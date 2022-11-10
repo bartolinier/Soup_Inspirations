@@ -99,7 +99,7 @@ export default function Recipes() {
     <>
       <RecipesContainer>
         <RecipesHeader>Recipes</RecipesHeader>
-        {filteredIngredientsList}
+
         <SearchRecipesContainer>
           <SearchRecipesHeaderContainer>
             <SearchRecipesHeader>Search by ingredient</SearchRecipesHeader>

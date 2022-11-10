@@ -9,6 +9,8 @@ import {
   FavListElementImgContainer,
   FavListElementImg,
   FavListElementSoupName,
+  FavListElementLinkContainer,
+  FavListDeleteButtonContainer,
 } from "./favorites-list-element.component.styles";
 
 export default function FavoritesListElement({
@@ -20,18 +22,22 @@ export default function FavoritesListElement({
 }) {
   return (
     <FavListElementContainer>
-      <FavRecipeLink to={`/recipes/${recipeID}`}>
-        <FavListSoupNameAndImgContainer>
-          <FavListElementImgContainer>
-            <FavListElementImg src={`${recipeImageUrl}`} alt="recipe image" />
-          </FavListElementImgContainer>
+      <FavListElementLinkContainer>
+        <FavRecipeLink to={`/recipes/${recipeID}`}>
+          <FavListSoupNameAndImgContainer>
+            <FavListElementImgContainer>
+              <FavListElementImg src={`${recipeImageUrl}`} alt="recipe image" />
+            </FavListElementImgContainer>
 
-          <FavListElementSoupName>{recipeSoupName}</FavListElementSoupName>
-        </FavListSoupNameAndImgContainer>
-      </FavRecipeLink>
-      <AlertButton action={action} label={label}>
-        {label}
-      </AlertButton>
+            <FavListElementSoupName>{recipeSoupName}</FavListElementSoupName>
+          </FavListSoupNameAndImgContainer>
+        </FavRecipeLink>
+      </FavListElementLinkContainer>
+      <FavListDeleteButtonContainer>
+        <AlertButton action={action} label={label}>
+          {label}
+        </AlertButton>
+      </FavListDeleteButtonContainer>
     </FavListElementContainer>
   );
 }

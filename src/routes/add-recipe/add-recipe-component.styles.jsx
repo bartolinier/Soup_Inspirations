@@ -1,5 +1,7 @@
 import styled from "styled-components";
 
+import { device } from "../../utils/media-queries/media-queries";
+
 const colorsAndShadows = {
   mainGrey: "#EAE8E8",
   blackShadow: "0rem 0.2rem 1rem black",
@@ -10,7 +12,8 @@ const colorsAndShadows = {
 };
 
 export const AddRecipeContainer = styled.div`
-  padding-top: 4rem;
+  width: 100%;
+  padding: 4rem 1rem 1rem 1rem;
   display: flex;
   flex-direction: column;
   gap: 2rem;
@@ -30,6 +33,10 @@ export const AddRecipeForm = styled.form`
   gap: 1rem;
   justify-content: center;
   align-items: left;
+
+  @media only screen and (${device.mobileXS}) {
+    width: 90%;
+  }
 `;
 
 export const AddRecipeInputContainer = styled.div`
@@ -53,7 +60,7 @@ export const IngredientList = styled.div`
 `;
 
 export const AddIngredientInputContainer = styled.div`
-  width: max-content;
+  width: fit-content;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -63,7 +70,7 @@ export const AddIngredientInputContainer = styled.div`
 `;
 
 export const AddRecipeInput = styled.input`
-  width: ${({ variant }) => (variant === "short" ? "5rem" : "100%")};
+  width: ${({ variant }) => (variant === "short" ? "5rem" : "50%")};
   height: 2rem;
   padding: 0.3rem;
   font-family: "Jost", sans-serif;
@@ -119,6 +126,10 @@ export const RecipeImageContainer = styled.div`
   height: 25rem;
   overflow: hidden;
   box-shadow: ${colorsAndShadows.grayShadow};
+
+  @media only screen and (${device.mobileXS}) {
+    width: 100%;
+  }
 `;
 
 export const RecipeImage = styled.img`
@@ -126,10 +137,6 @@ export const RecipeImage = styled.img`
   height: 25rem;
   object-fit: cover;
   transition: ease-in-out 400ms;
-
-  /* &:hover {
-    transform: scale(1.3);
-  } */
 `;
 
 export const PreparationTimeContainer = styled.div`
@@ -137,13 +144,17 @@ export const PreparationTimeContainer = styled.div`
   gap: 0.3rem;
   align-items: center;
   justify-content: center;
-  width: max-content;
+  width: fit-content;
 `;
 
 export const PreparationTimeLabel = styled.p`
   color: ${colorsAndShadows.fontMainColor};
   font-size: 1.5rem;
   font-weight: 700;
+
+  @media only screen and (${device.mobileXS}) {
+    font-size: 1.2rem;
+  }
 `;
 
 export const PreparationTimeValue = styled.p`
@@ -244,8 +255,20 @@ export const TipsContainer = styled.div`
   box-shadow: ${colorsAndShadows.grayShadow};
 `;
 
+export const AlertTextContainer = styled.div`
+  width: 100%;
+  word-break: break-all;
+`;
+
 export const AlertText = styled.p`
   color: ${colorsAndShadows.alertRed};
   font-size: 1rem;
   font-weight: 700;
+
+  @media only screen and (${device.mobileXS}) {
+    font-size: 0.9rem;
+  }
+  @media only screen and (${device.mobileXXS}) {
+    font-size: 0.8rem;
+  }
 `;

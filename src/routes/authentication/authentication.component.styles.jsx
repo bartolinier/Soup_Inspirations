@@ -1,5 +1,7 @@
 import styled from "styled-components";
 
+import { device } from "../../utils/media-queries/media-queries";
+
 const colorsAndShadows = {
   mainGrey: "#EAE8E8",
   blackShadow: "0rem 0.2rem 1rem black",
@@ -25,15 +27,39 @@ export const AuthenticationHeader = styled.h1`
 
 export const SignInSignOutContainer = styled.div`
   width: 100%;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-
-  gap: 2rem;
-
-  justify-items: center;
-  align-items: start;
-
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15rem;
+  justify-content: center;
+  align-items: flex-start;
   padding-top: 4rem;
+
+  @media only screen and (${device.mobileXS}) {
+    gap: 3rem;
+    padding: 1rem;
+    justify-content: end;
+  }
+
+  @media only screen and (${device.mobile}) {
+    gap: 3rem;
+    padding: 1rem;
+    justify-content: end;
+  }
+
+  @media only screen and (${device.tablets}) {
+    gap: 5rem;
+    justify-content: end;
+  }
+
+  @media only screen and (${device.large}) {
+    justify-content: center;
+    gap: 10rem;
+  }
+
+  @media only screen and (${device.xlarge}) {
+    justify-content: center;
+    gap: 10rem;
+  }
 `;
 
 export const SignInSignOutSplitLine = styled.div`

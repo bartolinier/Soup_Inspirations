@@ -7,7 +7,6 @@ import {
   AuthenticationContainer,
   AuthenticationHeader,
   SignInSignOutContainer,
-  SignInSignOutSplitLine,
 } from "./authentication.component.styles";
 
 export default function Authentication() {
@@ -18,7 +17,7 @@ export default function Authentication() {
 
         <SignInSignOutContainer>
           <SignIn />
-          {/* <SignInSignOutSplitLine /> */}
+
           <SignUp />
         </SignInSignOutContainer>
       </AuthenticationContainer>

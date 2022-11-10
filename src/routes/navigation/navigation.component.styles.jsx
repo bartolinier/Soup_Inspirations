@@ -1,8 +1,7 @@
 import styled from "styled-components";
 
 import { NavLink } from "react-router-dom";
-import { Component } from "react";
-
+import { device } from "../../utils/media-queries/media-queries";
 const colorsAndShadows = {
   mainGrey: "#EAE8E8",
   grayShadow: "0rem 0.2rem 0.3rem gray",
@@ -11,17 +10,28 @@ const colorsAndShadows = {
 };
 
 export const NavigationContainer = styled.div`
-  height: 8vh;
+  height: max-content;
+  font-size: 1.5rem;
   width: 100%;
+  justify-content: space-between;
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem;
   background-color: #eae8e8;
   display: flex;
-  justify-content: space-between;
   align-items: center;
   padding-right: 1rem;
   box-shadow: ${colorsAndShadows.grayShadow};
   opacity: 0.99;
   position: fixed;
   z-index: 1000;
+
+  @media only screen and (${device.mobileXS}) {
+    font-size: 1.2rem;
+  }
+  @media only screen and (${device.mobileXXS}) {
+    font-size: 1rem;
+    justify-content: space-around;
+  }
 `;
 export const NavigationLogoContainer = styled(NavLink)`
   display: flex;
@@ -51,7 +61,6 @@ export const NavLinks = styled.div`
 
 export const NavigationLink = styled(NavLink)`
   padding: 10px 15px;
-  font-size: 1.5rem;
   color: ${colorsAndShadows.fontMainColor};
   text-decoration: none;
   transition: ease-in-out 400ms;

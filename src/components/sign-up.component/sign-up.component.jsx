@@ -16,6 +16,7 @@ import {
   SignUplabelAndInput,
   WrongEmailMsg,
   PasswordsNoMatchMsg,
+  ReCaptchaContainer,
 } from "./sign-up.component.styles";
 
 const defaultFormFields = {
@@ -99,7 +100,9 @@ export default function SignUp() {
         ) : null}
 
         <SignUplabelAndInput>
-          <label htmlFor="password"> password (min. 6 char.)* </label>
+          <label htmlFor="password">
+            <p>password (min. 6 char.)*</p>{" "}
+          </label>
           <input
             type="password"
             name="password"
@@ -123,11 +126,13 @@ export default function SignUp() {
         {passwordsNoMatchMsg && !wrongEmailMsg ? (
           <PasswordsNoMatchMsg>Passwords don't match!</PasswordsNoMatchMsg>
         ) : null}
-        <ReCAPTCHA sitekey={recaptchaKey} onChange={onChange} />
+        <ReCaptchaContainer>
+          <ReCAPTCHA sitekey={recaptchaKey} onChange={onChange} />
+        </ReCaptchaContainer>
         <UniversalButton
           disabled={!verified}
+          action={handleSubmit}
           label="Sign up"
-          type="submit"
         ></UniversalButton>
       </SignUpForm>
     </SignUpContainer>

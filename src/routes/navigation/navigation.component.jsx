@@ -36,7 +36,7 @@ export default function Navigation() {
       <NavigationContainer>
         <NavigationLogoContainer onClick={() => setUserMenu(false)} to="/">
           <TbSoup style={{ fontSize: "2.5rem" }}></TbSoup>
-          <p>Soup Inspirations</p>
+          {/* <p>Soup Inspirations</p> */}
         </NavigationLogoContainer>
 
         <NavLinks>

@@ -1,6 +1,8 @@
-import { React, useState } from "react";
+import { React, useState, useContext } from "react";
 
 import { useNavigate } from "react-router-dom";
+
+import { UserContext } from "../../contexts/user.context";
 
 import {
   SignInWithGooglePopup,
@@ -23,6 +25,8 @@ const defaultFormFields = {
 };
 
 export default function SignIn() {
+  const { currentUser } = useContext(UserContext);
+
   const navigate = useNavigate();
 
   const [wrongEmailMsg, setWrongEmailMsg] = useState(false);
@@ -42,7 +46,9 @@ export default function SignIn() {
 
     try {
       await SignInAuthUserWithEmailAndPassword(email, password);
-      navigate("/");
+      {
+        currentUser ? navigate("/") : navigate("/authentication");
+      }
       resetFormFields();
     } catch (error) {
       switch (error.code) {
@@ -104,6 +110,7 @@ export default function SignIn() {
 
         <a href="reset-password">Forgot password?</a>
         <UniversalButton
+          action={handleSubmit}
           label="Sign In"
           href="/"
           type="submit"

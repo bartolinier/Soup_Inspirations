@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { device } from "../../utils/media-queries/media-queries";
 
 const colorsAndShadows = {
   mainGrey: "#EAE8E8",
@@ -38,11 +39,18 @@ export const SoupName = styled.h1`
 `;
 
 export const RecipeImageContainer = styled.div`
+  display: flex;
+
+  justify-content: center;
   position: relative;
   width: 30rem;
   height: 25rem;
   overflow: hidden;
   box-shadow: ${colorsAndShadows.grayShadow};
+
+  @media only screen and (${device.mobileXS}) {
+    width: 80%;
+  }
 `;
 
 export const RecipeImage = styled.img`
@@ -50,10 +58,6 @@ export const RecipeImage = styled.img`
   height: 25rem;
   object-fit: cover;
   transition: ease-in-out 400ms;
-
-  /* &:hover {
-    transform: scale(1.3);
-  } */
 `;
 
 export const PreparationTimeContainer = styled.div`
@@ -62,6 +66,11 @@ export const PreparationTimeContainer = styled.div`
   align-items: center;
   justify-content: center;
   width: max-content;
+
+  @media only screen and (${device.mobileXS}) {
+    width: 80%;
+    align-items: flex-end;
+  }
 `;
 
 export const PreparationTimeLabel = styled.p`

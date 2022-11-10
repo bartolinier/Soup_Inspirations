@@ -1,5 +1,7 @@
 import styled from "styled-components";
 
+import { device } from "../../utils/media-queries/media-queries";
+
 const colorsAndShadows = {
   mainGrey: "#EAE8E8",
   blackShadow: "0rem 0.2rem 1rem black",
@@ -29,6 +31,10 @@ export const SearchRecipesContainer = styled.div`
   gap: 1rem;
   justify-content: center;
   align-items: center;
+
+  @media only screen and (${device.mobileXS}) {
+    width: 100%;
+  }
 `;
 
 export const SearchRecipesHeaderContainer = styled.div`
@@ -39,6 +45,10 @@ export const SearchRecipesHeaderContainer = styled.div`
   gap: 1rem;
   justify-content: center;
   align-items: center;
+
+  @media only screen and (${device.mobileXS}) {
+    width: 15rem;
+  }
 `;
 
 export const SearchRecipesHeader = styled.h3`
@@ -51,6 +61,10 @@ export const SearchRecipesSearchBox = styled.input`
   font-family: "Jost", sans-serif;
   padding: 1rem;
   font-size: 1.5rem;
+
+  @media only screen and (${device.mobileXS}) {
+    width: 60%;
+  }
 `;
 
 export const RecentRecipesHeader = styled.h3`
@@ -58,9 +72,13 @@ export const RecentRecipesHeader = styled.h3`
 `;
 
 export const RecipesListContainer = styled.div`
+  width: 60%;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   gap: 3rem;
+
+  @media only screen and (${device.mobileXS}) {
+  }
 `;

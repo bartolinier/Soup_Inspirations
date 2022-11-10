@@ -28,6 +28,15 @@ export default function UserMenu({ email, logoutAction }) {
             onClick={() => {
               setUserMenu(false);
             }}
+            to="/recipes"
+          >
+            <FavoritesLabel>Recipes</FavoritesLabel>
+          </MenuNavLink>
+
+          <MenuNavLink
+            onClick={() => {
+              setUserMenu(false);
+            }}
             to="/favorites"
           >
             <FavoritesLabel>

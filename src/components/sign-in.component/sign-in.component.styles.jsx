@@ -1,5 +1,7 @@
 import styled from "styled-components";
 
+import { device } from "../../utils/media-queries/media-queries";
+
 const colorsAndShadows = {
   mainGrey: "#EAE8E8",
   blackShadow: "0rem 0.2rem 1rem black",
@@ -16,6 +18,10 @@ export const SignInContainer = styled.div`
   gap: 1rem;
   justify-content: center;
   align-items: flex-end;
+  padding-top: 3rem;
+  @media only screen and (${device.mobileXS}) {
+    width: 100%;
+  }
 `;
 
 export const WrongEmailMsg = styled.div`
@@ -39,10 +45,13 @@ export const WrongPasswordMsg = styled.div`
 
 export const SignInHeader = styled.h2`
   color: ${colorsAndShadows.fontMainColor};
+  @media only screen and (${device.mobileXS}) {
+    font-size: 2rem;
+  }
 `;
 
 export const SignInForm = styled.form`
-  width: max-content;
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -55,19 +64,32 @@ export const SignInForm = styled.form`
 `;
 
 export const SignInlabelAndInput = styled.div`
+  width: 100%;
   display: flex;
   gap: 1rem;
   justify-content: center;
   align-items: center;
 
   & > label {
-    width: 5rem;
+    @media only screen and (${device.mobileXS}) {
+      width: 30%;
+    }
+    @media only screen and (${device.mobile}) {
+      width: 30%;
+    }
   }
   & > input {
     height: 2rem;
-    width: 15rem;
+    width: 50%;
     padding: 0.2rem;
     font-size: 1.1rem;
     font-family: "Jost", sans-serif;
+
+    @media only screen and (${device.mobileXS}) {
+      width: 70%;
+    }
+    @media only screen and (${device.mobile}) {
+      width: 70%;
+    }
   }
 `;

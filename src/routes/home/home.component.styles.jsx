@@ -2,6 +2,8 @@ import backgroundImg from "../../gfx/soup_main_background.webp";
 
 import { NavLink } from "react-router-dom";
 
+import { device } from "../../utils/media-queries/media-queries";
+
 import styled from "styled-components";
 
 const colorsAndShadows = {
@@ -34,17 +36,56 @@ export const MainPageTxtContainer = styled.div`
 `;
 
 export const MainTxt = styled.p`
-  font-size: 6rem;
-  font-weight: 400;
+  font-weight: 500;
   text-align: center;
   text-shadow: ${colorsAndShadows.blackShadow};
   color: ${colorsAndShadows.mainGrey};
+
+  @media only screen and (${device.mobileXS}) {
+    font-size: 2.5rem;
+  }
+
+  @media only screen and (${device.mobile}) {
+    font-size: 2.5rem;
+  }
+
+  @media only screen and (${device.tablets}) {
+    font-size: 4.5rem;
+  }
+
+  @media only screen and (${device.large}) {
+    font-size: 5rem;
+  }
+
+  @media only screen and (${device.xlarge}) {
+    font-size: 6rem;
+  }
 `;
 
 export const SubTxt = styled.p`
-  font-size: 2rem;
   color: ${colorsAndShadows.mainGrey};
   text-shadow: ${colorsAndShadows.blackShadow};
+  text-align: center;
+
+  @media only screen and (${device.mobileXS}) {
+    font-size: 1.5rem;
+  }
+
+  @media only screen and (${device.mobile}) {
+    font-size: 1.5rem;
+  }
+
+  @media only screen and (${device.tablets}) {
+    font-size: 2rem;
+  }
+
+  @media only screen and (${device.large}) {
+    font-size: 3rem;
+  }
+
+  @media only screen and (${device.xlarge}) {
+    font-size: 4rem;
+  }
 `;
 
 export const RecipesBtnContainer = styled.div`
@@ -55,10 +96,13 @@ export const RecipesBtnContainer = styled.div`
 
 export const ButtonLink = styled(NavLink)`
   height: auto;
-  width: 15rem;
+  width: max-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background-color: ${colorsAndShadows.mainGrey};
-  padding-left: 4rem;
-  padding-right: 4rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
   font-size: 2rem;
   font-weight: 500;
   color: ${colorsAndShadows.fontMainColor};
@@ -68,5 +112,25 @@ export const ButtonLink = styled(NavLink)`
 
   &:hover {
     transform: scale(1.1);
+  }
+
+  @media only screen and (${device.mobileXS}) {
+    font-size: 1.5rem;
+  }
+
+  @media only screen and (${device.mobile}) {
+    font-size: 1.5rem;
+  }
+
+  @media only screen and (${device.tablets}) {
+    font-size: 2rem;
+  }
+
+  @media only screen and (${device.large}) {
+    font-size: 2rem;
+  }
+
+  @media only screen and (${device.xlarge}) {
+    font-size: 2.5rem;
   }
 `;
