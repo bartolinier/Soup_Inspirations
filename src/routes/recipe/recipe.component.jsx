@@ -58,15 +58,10 @@ export default function Recipe() {
   // Handle add recipe to favorites
 
   const handleAddToFavorites = (id) => {
-    const ID = Math.floor(Math.random() * 1000);
-
     if (
       !favorites.some((el) => el.user === currentUser.uid && el.recipeID === id)
     ) {
-      setFavorites([
-        ...favorites,
-        { recipeID: id, user: currentUser.uid, objID: ID },
-      ]);
+      setFavorites([...favorites, { recipeID: id, user: currentUser.uid }]);
     } else {
       const newFavorites = favorites.filter(
         (fav) => fav.recipeID != id || fav.user != currentUser.uid
@@ -78,8 +73,10 @@ export default function Recipe() {
 
   //    Find recipe by ID in database and show in component
 
+  const SHOW_RECIPE = process.env.REACT_APP_SERVER_SHOW_RECIPE;
+
   const handleShowRecipe = async () => {
-    await fetch("http://localhost:4444/recipe", {
+    await fetch(`${SHOW_RECIPE}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

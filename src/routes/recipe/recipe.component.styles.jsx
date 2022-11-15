@@ -113,11 +113,12 @@ export const IngredientsLabel = styled.p`
 
 export const IngredientsListContainer = styled.div`
   display: flex;
-  width: max-content;
+  width: fit-content;
   flex-direction: column;
   gap: 1rem;
   align-items: left;
   justify-content: center;
+  padding-left: 1rem;
 `;
 
 export const IngredientContainer = styled.div`

@@ -11,6 +11,7 @@ import {
   FavoritesListHeader,
 } from "./favorites.component.styles";
 import UniversalButton from "../../components/universal-button.component/universal-button.component";
+import Spinner from "../../components/spinner.component/spinner.component";
 export default function Favorites() {
   const navigate = useNavigate();
   const { currentUser } = useContext(UserContext);
@@ -19,8 +20,10 @@ export default function Favorites() {
 
   const [recipesFromDB, setRecipesfromDB] = useState(null);
 
+  const RECIPES_LINK = process.env.REACT_APP_SERVER_GET_RECIPES;
+
   useEffect(() => {
-    fetch(`http://localhost:4444/recipes-list`)
+    fetch(`${RECIPES_LINK}`)
       .then((response) => response.json())
 
       .then((data) => {
@@ -39,61 +42,44 @@ export default function Favorites() {
   return (
     <FavoritesListContainer>
       <FavoritesListHeader>Your Favorites</FavoritesListHeader>
-
-      {favorites.some((el) => el.user === currentUser.uid) ? (
-        recipesFromDB &&
-        recipesFromDB.map((recipe, index) => {
-          if (
-            favorites.some(
-              (el) => el.user === currentUser.uid && el.recipeID === recipe._id
-            )
-          ) {
-            return (
-              <FavoritesListElement
-                key={index}
-                recipeID={recipe._id}
-                recipeImageUrl={recipe.imageUrl}
-                recipeSoupName={recipe.soupName}
-                action={() => {
-                  handleRemoveFromFavorites(recipe._id);
-                }}
-                label="Remove"
-              />
-            );
-          }
-        })
+      {recipesFromDB ? (
+        favorites.some((el) => el.user === currentUser.uid) ? (
+          recipesFromDB &&
+          recipesFromDB.map((recipe, index) => {
+            if (
+              favorites.some(
+                (el) =>
+                  el.user === currentUser.uid && el.recipeID === recipe._id
+              )
+            ) {
+              return (
+                <FavoritesListElement
+                  key={index}
+                  recipeID={recipe._id}
+                  recipeImageUrl={recipe.imageUrl}
+                  recipeSoupName={recipe.soupName}
+                  action={() => {
+                    handleRemoveFromFavorites(recipe._id);
+                  }}
+                  label="Remove"
+                />
+              );
+            }
+          })
+        ) : (
+          <>
+            <p>No favorites...</p>
+            <UniversalButton
+              label="Go to Recipes"
+              action={() => {
+                navigate("/recipes");
+              }}
+            />
+          </>
+        )
       ) : (
-        <>
-          <p>No favorites...</p>
-          <UniversalButton
-            label="Go to Recipes"
-            action={() => {
-              navigate("/recipes");
-            }}
-          />
-        </>
+        <Spinner />
       )}
     </FavoritesListContainer>
   );
-}
-{
-  /* <div key={index}>
-                <Link to={`/recipes/${recipe._id}`}>
-                  <div>
-                    <img
-                      src={`${recipe.imageUrl}`}
-                      width={"100px"}
-                      alt="recipe image"
-                    />
-                    {recipe.soupName}
-                  </div>
-                </Link>
-                <button
-                  onClick={() => {
-                    handleRemoveFromFavorites(recipe._id);
-                  }}
-                >
-                  Remove from list
-                </button>
-              </div> */
 }

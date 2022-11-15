@@ -2,6 +2,7 @@
 
 
 recipes-component-playground.jsx
+search-recipes.component.playground.jsx
 
 # dependencies
 /node_modules

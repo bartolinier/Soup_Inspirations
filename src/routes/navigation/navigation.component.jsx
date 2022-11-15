@@ -1,4 +1,4 @@
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 
 import { TbSoup } from "react-icons/tb";
 import {
@@ -8,7 +8,7 @@ import {
   NavigationLink,
 } from "./navigation.component.styles";
 
-import { useContext, useState } from "react";
+import { useContext } from "react";
 
 import { signOutUser } from "../../utils/firebase/firebase";
 
@@ -21,10 +21,7 @@ import UserThumb from "../../components/user-name-thumb.component/user-name-thum
 import UserMenu from "../../components/user-menu.component/user-menu.component";
 
 export default function Navigation() {
-  const navigate = useNavigate();
-
   const { currentUser } = useContext(UserContext);
-  const { favorites } = useContext(FavoritesContext);
   const { userMenu, setUserMenu } = useContext(UserMenuContext);
 
   const handleUserMenu = () => {
@@ -36,7 +33,6 @@ export default function Navigation() {
       <NavigationContainer>
         <NavigationLogoContainer onClick={() => setUserMenu(false)} to="/">
           <TbSoup style={{ fontSize: "2.5rem" }}></TbSoup>
-          {/* <p>Soup Inspirations</p> */}
         </NavigationLogoContainer>
 
         <NavLinks>

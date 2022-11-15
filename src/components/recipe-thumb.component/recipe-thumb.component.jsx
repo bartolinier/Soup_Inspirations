@@ -2,8 +2,6 @@ import React from "react";
 
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 
-import { Link } from "react-router-dom";
-
 import {
   RecipeThumbContainer,
   RecipeThumbLink,

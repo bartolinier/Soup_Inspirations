@@ -1,5 +1,4 @@
-import { createContext, useState, useEffect } from "react";
-import { UserContext } from "./user.context";
+import { createContext, useState } from "react";
 
 export const UserMenuContext = createContext({
   userMenu: "",
@@ -10,10 +9,6 @@ export const UserMenuProvider = ({ children }) => {
   const [userMenu, setUserMenu] = useState(false);
 
   const value = { userMenu, setUserMenu };
-
-  //   useEffect(() => {
-  //     setUserMenu(false);
-  //   }, []);
 
   return (
     <UserMenuContext.Provider value={value}>

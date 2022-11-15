@@ -1,5 +1,4 @@
-import { createContext, useState, useEffect, useContext } from "react";
-import { UserContext } from "./user.context";
+import { createContext, useState, useEffect } from "react";
 
 export const FavoritesContext = createContext({
   favorites: [],

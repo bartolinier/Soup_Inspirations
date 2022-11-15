@@ -1,6 +1,6 @@
-import { React, useState, useEffect } from "react";
+import { React } from "react";
 
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import UniversalButton from "../../components/universal-button.component/universal-button.component";
 import {
   ResetPasswordOkContainer,

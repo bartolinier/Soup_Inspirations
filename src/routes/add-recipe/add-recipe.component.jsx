@@ -100,6 +100,10 @@ export default function AddRecipe({}) {
       label: "pcs.",
       value: "pcs.",
     },
+    {
+      label: "pinch",
+      value: "pinch",
+    },
   ];
 
   const defaultFormFields = {
@@ -211,9 +215,10 @@ export default function AddRecipe({}) {
 
   const [uploadButton, setUploadButton] = useState(false);
 
+  const ADD_RECIPE_LINK = process.env.REACT_APP_SERVER_ADD_RECIPE;
+
   const handleSendRecipe = async () => {
-    await fetch("http://localhost:4444/user/add-recipe", {
-      // Adding method type
+    await fetch(`${ADD_RECIPE_LINK}`, {
       method: "POST",
       mode: "cors",
       headers: {
@@ -247,7 +252,7 @@ export default function AddRecipe({}) {
 
       <AddRecipeForm>
         <AddRecipeInputContainer>
-          <label htmlFor="soup-name">Soup name (max 50 char.)</label>
+          <label htmlFor="soup-name">Soup name (max 20 char.)</label>
           <AddRecipeInput
             variant="max-length"
             required
@@ -257,7 +262,7 @@ export default function AddRecipe({}) {
             value={soupName}
             onChange={handleChange}
             placeholder="Type soup name..."
-            maxLength={50}
+            maxLength={20}
           />
         </AddRecipeInputContainer>
 
@@ -485,29 +490,6 @@ export default function AddRecipe({}) {
           <TipsContainer>{parse(tipsValue)}</TipsContainer>
         </RecipeContainer>
 
-        {/* {<img style={{ width: "20%" }} src={imageUrl} />}
-        <h2>Soup Name: {formFields.soupName}</h2>
-        <h2>Preparation time (minutes): {formFields.preparationTime} </h2>
-        <h2>Vegetarian: </h2>
-        {checkedInput === true ? <p>yes</p> : <p>no</p>}
-        <h2>Ingredients: </h2>
-        <div>
-          {ingredientsArray.map((ingredient, index) => {
-            return (
-              <div key={index}>
-                <p>{ingredient.ingredientName}</p>
-                <p>{ingredient.ingredientQuantity}</p>
-                <p>{ingredient.ingredientUnit}</p>
-              </div>
-            );
-          })}
-        </div>
-        <h2>Steps</h2>
-        <div style={{ height: "100%", padding: "3rem" }}>
-          {parse(stepsValue)}
-        </div>
-        <h2>Tips</h2>
-        <div>{parse(tipsValue)}</div> */}
         {(!soupName ||
           !preparationTime ||
           ingredientsArray.length === 0 ||

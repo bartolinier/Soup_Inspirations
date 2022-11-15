@@ -4,7 +4,7 @@ import RecipeThumb from "../../components/recipe-thumb.component/recipe-thumb.co
 
 import { SlMagnifier } from "react-icons/sl";
 
-import { Link } from "react-router-dom";
+import Spinner from "../../components/spinner.component/spinner.component";
 
 import { UserContext } from "../../contexts/user.context";
 
@@ -17,7 +17,6 @@ import {
   SearchRecipesHeaderContainer,
   SearchRecipesHeader,
   SearchRecipesSearchBox,
-  RecentRecipesHeader,
   RecipesListContainer,
 } from "./recipes.component.styles";
 
@@ -35,8 +34,10 @@ export default function Recipes() {
 
   // Import recipes from database
 
+  const RECIPES_LINK = process.env.REACT_APP_SERVER_GET_RECIPES;
+
   useEffect(() => {
-    fetch(`http://localhost:4444/recipes-list`)
+    fetch(`${RECIPES_LINK}`)
       .then((response) => response.json())
 
       .then((data) => {
@@ -114,9 +115,8 @@ export default function Recipes() {
           />
         </SearchRecipesContainer>
 
-        {/* <RecentRecipesHeader>Recently added inspirations</RecentRecipesHeader> */}
         <RecipesListContainer>
-          {recipesFromDB &&
+          {recipesFromDB ? (
             recipesFromDB
 
               .filter((recipe) =>
@@ -136,49 +136,12 @@ export default function Recipes() {
                     favorites={favorites}
                   />
                 );
-              })}
+              })
+          ) : (
+            <Spinner />
+          )}
         </RecipesListContainer>
       </RecipesContainer>
     </>
   );
-}
-
-{
-  /* <Link to={`${recipe._id}`}>
-                      <div>
-                        <img
-                          src={`${recipe.imageUrl}`}
-                          width={"100px"}
-                          alt="recipe image"
-                        />
-                        {recipe.soupName}
-                      </div>
-                    </Link>
-
-                    {currentUser ? (
-                      <button
-                        onClick={() => {
-                          handleAddToFavorites(recipe._id);
-                        }}
-                      >
-                        {currentUser &&
-                        favorites.some(
-                          (el) =>
-                            el.user === currentUser.uid &&
-                            el.recipeID === recipe._id
-                        )
-                          ? "dislike"
-                          : "like"}
-                      </button>
-                    ) : (
-                      <button
-                        onClick={() =>
-                          alert(
-                            "Only logged users can add recipes to favorites"
-                          )
-                        }
-                      >
-                        like
-                      </button>
-                    )} */
 }

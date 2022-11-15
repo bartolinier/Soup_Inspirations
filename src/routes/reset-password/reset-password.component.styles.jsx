@@ -1,5 +1,7 @@
 import styled from "styled-components";
 
+import { device } from "../../utils/media-queries/media-queries";
+
 const colorsAndShadows = {
   mainGrey: "#EAE8E8",
   blackShadow: "0rem 0.2rem 1rem black",
@@ -25,6 +27,7 @@ export const ResetPasswordHeader = styled.h2`
 export const ResetPasswordForm = styled.form`
   width: 100%;
   display: flex;
+  flex-direction: column;
   gap: 1rem;
   justify-content: center;
   align-items: center;
@@ -32,6 +35,7 @@ export const ResetPasswordForm = styled.form`
 
 export const ResetPasswordLabelAndInput = styled.div`
   display: flex;
+  flex-direction: column;
   gap: 1rem;
   justify-content: center;
   align-items: center;
@@ -42,7 +46,7 @@ export const ResetPasswordLabelAndInput = styled.div`
   }
   & > input {
     height: max-content;
-    width: 15rem;
+    width: max-content;
     padding: 0.2rem;
     font-size: 1.1rem;
     font-family: "Jost", sans-serif;
