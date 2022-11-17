@@ -9,6 +9,8 @@ const colorsAndShadows = {
 };
 
 export const Button = styled.div`
+  pointer-events: ${(props) => (props.disabled ? "none" : null)};
+  opacity: ${(props) => (props.disabled ? "0.5" : null)};
   width: max-content;
   height: 2rem;
   background-color: ${colorsAndShadows.mainGrey};

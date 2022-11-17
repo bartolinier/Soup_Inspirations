@@ -84,6 +84,9 @@ export const SignInlabelAndInput = styled.div`
     padding: 0.2rem;
     font-size: 1.1rem;
     font-family: "Jost", sans-serif;
+    &:focus {
+      outline: 0.1rem solid ${colorsAndShadows.mainOrange};
+    }
 
     @media only screen and (${device.mobileXS}) {
       width: 70%;

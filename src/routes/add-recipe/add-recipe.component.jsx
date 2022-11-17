@@ -61,8 +61,10 @@ export default function AddRecipe({}) {
 
   const { currentUser, setCurrentUser } = useContext(UserContext);
 
+  // checkedInput declaration for defaultFormFields
   const [checkedInput, setCheckedInput] = useState(false);
 
+  // Ingredient unit options
   const unitOptions = [
     {
       label: "---Choose unit---",
@@ -106,6 +108,8 @@ export default function AddRecipe({}) {
     },
   ];
 
+  // Add recipe form, excluding ingredients array, steps and tips
+
   const defaultFormFields = {
     soupName: "",
     preparationTime: 1,
@@ -114,9 +118,13 @@ export default function AddRecipe({}) {
     userID: currentUser.uid,
   };
 
+  // Set default form fields
   const [formFields, setFormFields] = useState(defaultFormFields);
 
+  // Assign soupName and preparationTime to formFields, handled by handleChange function
   const { soupName, preparationTime } = formFields;
+
+  // Add steps and tips to form Fields
 
   useEffect(() => {
     setFormFields({ ...formFields, steps: stepsValue });
@@ -126,40 +134,54 @@ export default function AddRecipe({}) {
     setFormFields({ ...formFields, tips: tipsValue });
   }, [tipsValue]);
 
+  // Chackbox handle
   const handleCheckboxChange = (event) => {
-    const { name, checked, value } = event.target;
+    // destructuring
+    const { name, checked } = event.target;
+
+    // handle checkbox false/true flag
     setCheckedInput(!checkedInput);
 
+    // Add checkbox value to formFields
     setFormFields({ ...formFields, [name]: checked });
   };
 
+  // Main handleChange function, adding destructured input name and value (key:value pair)
   const handleChange = (event) => {
     const { name, value } = event.target;
 
     setFormFields({ ...formFields, [name]: value });
   };
 
-  const [ingredientsArray, setIngredientsArray] = useState([]);
+  // Handling Ingredients -------------------------------------------
 
-  const [currentUnitValue, setCurrentUnitValue] = useState("");
+  // // handle Unit value
+  // const [currentUnitValue, setCurrentUnitValue] = useState("");
 
+  // ************************************************** Single ingredient ******************
+  // Default single ingredient fields Object
   const defaultIngredientFields = {
     ingredientId: "",
     ingredientName: "",
     ingredientQuantity: "",
-    ingredientUnit: currentUnitValue,
+    ingredientUnit: "",
   };
 
+  // Assign default ingredient Fields to single ingredient Object
   const [ingredientFields, setIngredientFields] = useState(
     defaultIngredientFields
   );
 
+  // Destructuring
   const { ingredientName, ingredientQuantity, ingredientUnit, ingredientId } =
     ingredientFields;
 
+  // Main handle single ingredient function
   const handleIngredientChange = (event) => {
     const { name, value } = event.target;
 
+    // Add ingredient name and quantity to ingredientFields,
+    //  add ingredientId, for handling deleting ingredients from Ingredients Array
     setIngredientFields({
       ...ingredientFields,
       [name]: value,
@@ -167,25 +189,39 @@ export default function AddRecipe({}) {
     });
   };
 
+  // Function for handling single ingredient unit change
   const handleUnitChange = (event) => {
-    const { value, name } = event.target;
-    setCurrentUnitValue(value);
+    const { value } = event.target;
+
+    // // assign current unit value
+    // setCurrentUnitValue(value);
+
+    // Add ingredient unit to ingredientFields
     setIngredientFields({ ...ingredientFields, ingredientUnit: value });
   };
 
-  const [ingredients, setIngredients] = useState([]);
+  // *********************************************************************
 
-  const handleIngredientBuild = (e) => {
+  // Main ingredients array, sent to Database
+  const [ingredientsArray, setIngredientsArray] = useState([]);
+
+  // handle add ingredient to Ingredients Array which is sent to database
+
+  const handleIngredientAdd = (e) => {
     e.preventDefault();
-    setIngredients([...ingredients, ingredientFields]);
+
+    // Add ingredientFields to ingredients Array
     ingredientsArray.push(ingredientFields);
 
+    // Add ingredientsArray to Form Fields
     setFormFields({ ...formFields, ingredientsArray: ingredientsArray });
 
+    // Clear single ingredient fields
     setIngredientFields(defaultIngredientFields);
   };
 
-  const handleRemoveIngredient = (id) => {
+  // Handle remove single ingredient from main ingredients array
+  const handleIngredientRemove = (id) => {
     const filteredArray = ingredientsArray.filter(
       (ingredient) => ingredient.ingredientId !== id
     );
@@ -193,10 +229,12 @@ export default function AddRecipe({}) {
     setIngredientsArray(filteredArray);
   };
 
+  // reset Form fields function
   const resetFormFields = () => {
     setFormFields(defaultFormFields);
   };
 
+  // Image upload handle
   const [imageUpload, setImageUpload] = useState(null);
   const [imageUrl, setImageUrl] = useState("");
 
@@ -207,6 +245,7 @@ export default function AddRecipe({}) {
 
     uploadBytes(imageRef, imageUpload).then((snapshot) => {
       getDownloadURL(snapshot.ref).then((url) => {
+        // add image url to Form fields, after uploading image to Firestore
         setImageUrl(url);
         setFormFields({ ...formFields, imageUrl: url });
       });
@@ -214,6 +253,8 @@ export default function AddRecipe({}) {
   };
 
   const [uploadButton, setUploadButton] = useState(false);
+
+  // Send Recipe to database
 
   const ADD_RECIPE_LINK = process.env.REACT_APP_SERVER_ADD_RECIPE;
 
@@ -229,17 +270,20 @@ export default function AddRecipe({}) {
     });
   };
 
-  const handleSubmit = (e) => {
-    setImageUrl("");
-    setStepsValue("");
-    setTipsValue("");
-    setCheckedInput(false);
-    resetFormFields();
-    setFormFields(defaultFormFields);
-    setIngredientFields(defaultIngredientFields);
-    setIngredientsArray([]);
-
-    handleSendRecipe();
+  const handleSubmit = async (e) => {
+    try {
+      setStepsValue("");
+      setTipsValue("");
+      setCheckedInput(false);
+      resetFormFields();
+      setFormFields(defaultFormFields);
+      setIngredientFields(defaultIngredientFields);
+      setIngredientsArray([]);
+      handleSendRecipe();
+      navigate("/recipes");
+    } catch {
+      navigate("/error-page");
+    }
   };
 
   return (
@@ -314,7 +358,7 @@ export default function AddRecipe({}) {
                     <AlertButton
                       label={"delete ingredient"}
                       action={() => {
-                        handleRemoveIngredient(ingredient.ingredientId);
+                        handleIngredientRemove(ingredient.ingredientId);
                       }}
                     ></AlertButton>
                   </IngredientContainer>
@@ -354,7 +398,7 @@ export default function AddRecipe({}) {
                 <UniversalButton
                   disabled={true}
                   label="Add ingredient"
-                  action={handleIngredientBuild}
+                  action={handleIngredientAdd}
                 >
                   Add ingredient
                 </UniversalButton>
@@ -367,7 +411,7 @@ export default function AddRecipe({}) {
             ) : (
               <UniversalButton
                 label="Add ingredient"
-                action={handleIngredientBuild}
+                action={handleIngredientAdd}
               ></UniversalButton>
             )}
           </AddIngredientInputContainer>
@@ -494,7 +538,7 @@ export default function AddRecipe({}) {
           !preparationTime ||
           ingredientsArray.length === 0 ||
           !stepsValue) &&
-        currentUser.uid != process.env.REACT_APP_IDAD ? (
+        currentUser.uid !== process.env.REACT_APP_IDAD ? (
           <>
             <UniversalButton
               disabled={true}
@@ -508,6 +552,12 @@ export default function AddRecipe({}) {
           </>
         ) : (
           <UniversalButton
+            disabled={
+              !soupName ||
+              !preparationTime ||
+              ingredientsArray.length === 0 ||
+              !stepsValue
+            }
             label="Save"
             type="submit"
             action={handleSubmit}

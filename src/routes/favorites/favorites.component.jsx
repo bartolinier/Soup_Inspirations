@@ -3,6 +3,9 @@ import { useNavigate } from "react-router-dom";
 
 import { UserContext } from "../../contexts/user.context";
 
+import UniversalButton from "../../components/universal-button.component/universal-button.component";
+import Spinner from "../../components/spinner.component/spinner.component";
+
 import { FavoritesContext } from "../../contexts/favorites.context";
 import FavoritesListElement from "../../components/favorites-list-element.component/favorites-list-element.component";
 
@@ -10,8 +13,7 @@ import {
   FavoritesListContainer,
   FavoritesListHeader,
 } from "./favorites.component.styles";
-import UniversalButton from "../../components/universal-button.component/universal-button.component";
-import Spinner from "../../components/spinner.component/spinner.component";
+
 export default function Favorites() {
   const navigate = useNavigate();
   const { currentUser } = useContext(UserContext);

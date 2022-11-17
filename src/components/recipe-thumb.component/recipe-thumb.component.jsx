@@ -49,7 +49,7 @@ export default function RecipeThumb({
       ) : (
         <RecipeThumbLike
           onClick={() =>
-            alert("Only logged users can add recipes to favorites")
+            alert("Only logged users can add recipes to favorites!")
           }
         >
           <AiOutlineHeart />

@@ -62,6 +62,10 @@ export const SearchRecipesSearchBox = styled.input`
   padding: 1rem;
   font-size: 1.5rem;
 
+  &:focus {
+    outline: 0.1rem solid ${colorsAndShadows.mainOrange};
+  }
+
   @media only screen and (${device.mobileXS}) {
     width: 60%;
   }

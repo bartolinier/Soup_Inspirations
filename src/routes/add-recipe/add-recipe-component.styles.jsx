@@ -75,6 +75,10 @@ export const AddRecipeInput = styled.input`
   padding: 0.3rem;
   font-family: "Jost", sans-serif;
   font-size: 1.2rem;
+
+  &:focus {
+    outline: 0.1rem solid ${colorsAndShadows.mainOrange};
+  }
 `;
 
 export const AddRecipeSelect = styled.select`
@@ -83,6 +87,10 @@ export const AddRecipeSelect = styled.select`
 
   font-family: "Jost", sans-serif;
   font-size: 1.1rem;
+
+  &:focus {
+    outline: 0.1rem solid ${colorsAndShadows.mainOrange};
+  }
 `;
 
 export const AddRecipeOption = styled.option`

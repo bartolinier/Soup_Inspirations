@@ -37,6 +37,8 @@ export default function SignIn() {
 
   const { email, password } = formFields;
 
+  const [verified, setVerified] = useState(false);
+
   const resetFormFields = () => {
     setFormFields(defaultFormFields);
   };
@@ -46,20 +48,21 @@ export default function SignIn() {
 
     try {
       await SignInAuthUserWithEmailAndPassword(email, password);
+
       {
         currentUser ? navigate("/") : navigate("/authentication");
       }
       resetFormFields();
     } catch (error) {
       switch (error.code) {
-        case "auth/wrong-password":
-          setWrongPasswordMsg(true);
-          break;
         case "auth/user-not-found":
           setWrongEmailMsg(true);
-          break;
+
+        case "auth/wrong-password":
+          setWrongPasswordMsg(true);
+
         default:
-          navigate("/error-page");
+          navigate("/authentication");
       }
     }
   };
@@ -80,7 +83,7 @@ export default function SignIn() {
       <SignInHeader>Sign in</SignInHeader>
       <SignInForm onSubmit={handleSubmit}>
         <SignInlabelAndInput>
-          <label htmlFor="sign-in-email"> e-mail </label>
+          <label htmlFor="sign-in-email"> e-mail* </label>
           <input
             type="email"
             required
@@ -94,7 +97,7 @@ export default function SignIn() {
           <WrongEmailMsg>Wrong email address!</WrongEmailMsg>
         ) : null}
         <SignInlabelAndInput>
-          <label htmlFor="password"> password </label>
+          <label htmlFor="password"> password* </label>
           <input
             type="password"
             required
@@ -111,8 +114,8 @@ export default function SignIn() {
         <a href="reset-password">Forgot password?</a>
         <UniversalButton
           action={handleSubmit}
+          disabled={!email || !password}
           label="Sign In"
-          href="/"
           type="submit"
         ></UniversalButton>
       </SignInForm>

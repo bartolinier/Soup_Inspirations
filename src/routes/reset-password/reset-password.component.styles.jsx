@@ -50,6 +50,9 @@ export const ResetPasswordLabelAndInput = styled.div`
     padding: 0.2rem;
     font-size: 1.1rem;
     font-family: "Jost", sans-serif;
+    &:focus {
+      outline: 0.1rem solid ${colorsAndShadows.mainOrange};
+    }
   }
 `;
 
