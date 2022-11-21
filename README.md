@@ -13,3 +13,5 @@ App with soup recipes.
 - Firebase Firestore
 - Google reCaptcha v2
 - mongoDB
+
+## Live: https://soup-inspirations.web.app
