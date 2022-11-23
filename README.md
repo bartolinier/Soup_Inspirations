@@ -4,6 +4,10 @@
 
 App with soup recipes.
 
+Logged users can add recipes to Favorites (stored in Local Storage) and add recipes to database (admin only, playground CMS available for all logged users)
+
+Use Google account or valid e-mail address to create an account and test app features as logged user!
+
 ## Tech Stack:
 
 - React (Hooks, Styled Components, Context)
