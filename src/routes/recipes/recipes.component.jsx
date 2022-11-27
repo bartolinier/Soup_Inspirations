@@ -18,6 +18,7 @@ import {
   SearchRecipesHeader,
   SearchRecipesSearchBox,
   RecipesListContainer,
+  LoadingContainer,
 } from "./recipes.component.styles";
 
 export default function Recipes() {
@@ -138,7 +139,10 @@ export default function Recipes() {
                 );
               })
           ) : (
-            <Spinner />
+            <LoadingContainer>
+              <Spinner />
+              <p>Please wait...</p>
+            </LoadingContainer>
           )}
         </RecipesListContainer>
       </RecipesContainer>

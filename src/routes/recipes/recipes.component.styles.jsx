@@ -86,3 +86,10 @@ export const RecipesListContainer = styled.div`
   @media only screen and (${device.mobileXS}) {
   }
 `;
+
+export const LoadingContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;

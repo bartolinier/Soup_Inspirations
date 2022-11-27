@@ -12,6 +12,7 @@ import FavoritesListElement from "../../components/favorites-list-element.compon
 import {
   FavoritesListContainer,
   FavoritesListHeader,
+  LoadingContainer,
 } from "./favorites.component.styles";
 
 export default function Favorites() {
@@ -80,7 +81,10 @@ export default function Favorites() {
           </>
         )
       ) : (
-        <Spinner />
+        <LoadingContainer>
+          <Spinner />
+          <p>Please wait...</p>
+        </LoadingContainer>
       )}
     </FavoritesListContainer>
   );

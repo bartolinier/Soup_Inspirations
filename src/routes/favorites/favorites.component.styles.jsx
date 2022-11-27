@@ -24,3 +24,10 @@ export const FavoritesListContainer = styled.div`
 export const FavoritesListHeader = styled.h1`
   color: ${colorsAndShadows.fontMainColor};
 `;
+
+export const LoadingContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
