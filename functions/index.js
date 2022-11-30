@@ -91,7 +91,7 @@ app.post("/user/add-recipe", (req, res) => {
 //  Recipes list 
 
 app.get("/recipes-list", (req, res) => {
-    Recipe.find({})
+    Recipe.find({}).lean()
         .then((result) => {
             res.send(result)
         })
